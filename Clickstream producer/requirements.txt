@@ -1,2 +1,2 @@
-quixstreams
-pandas
+quixstreams==2.3.2
+python-dotenv

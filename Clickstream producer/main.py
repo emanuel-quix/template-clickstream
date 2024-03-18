@@ -1,10 +1,15 @@
 import os
-import quixstreams as qx
-import pandas as pd
+from quixstreams import Application
 import time
 from datetime import datetime
-import threading
+import json
 import re
+import csv
+import os
+print("Current Working Directory:", os.getcwd())
+# import the dotenv module to load environment variables from a file
+from dotenv import load_dotenv
+load_dotenv(override=False)
 
 # True = keep original timings.
 # False = No delay! Speed through it as fast as possible.
@@ -15,14 +20,21 @@ keep_timing = "keep_timing" in os.environ and os.environ["keep_timing"] == "1"
 # to exit gracefully.
 shutting_down = False
 
-# Quix Platform injects credentials automatically to the client.
-# Alternatively, you can always pass an SDK token manually as an argument.
-client = qx.QuixStreamingClient()
+# Create an Application.
+app = Application.Quix()
 
-# The producer topic is where the data will be published to
-# It's the output from this demo data source code.
-print("Opening output topic")
-producer_topic = client.get_topic_producer(os.environ["output"])
+# Define the topic using the "output" environment variable
+topic_name = os.getenv("output", "")
+if topic_name == "":
+    raise ValueError("The 'output' environment variable is required. This is the output topic that data will be published to.")
+
+topic = app.topic(topic_name)
+
+# Create a pre-configured Producer object.
+# Producer is already setup to use Quix brokers.
+# It will also ensure that the topics exist before producing to them if
+# Application.Quix is initiliazed with "auto_create_topics=True" (the default).
+producer = app.get_producer()
 
 # counters for the status messages
 row_counter = 0
@@ -33,15 +45,19 @@ def publish_row(row):
     global row_counter
     global published_total
 
-    # create a DataFrame using the row
-    df_row = pd.DataFrame([row])
-
     # add a new timestamp column with the current data and time
-    df_row['timestamp'] = datetime.utcnow()
+    row['timestamp'] = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')    
 
-    # publish the data to the Quix stream created earlier
-    stream_producer = producer_topic.get_or_create_stream(row['userId'])
-    stream_producer.timeseries.publish(df_row)
+    # Serialize row_data to a JSON string
+    json_data = json.dumps(row)
+    # Encode the JSON string to a byte array
+    serialized_value = json_data.encode('utf-8')
+
+    producer.produce(
+        topic=topic.name,
+        key="ClickStream",
+        value=serialized_value
+    )
 
     row_counter += 1
 
@@ -60,86 +76,74 @@ def get_product_id(url):
     return url
 
 
-def process_csv_file(csv_file):
+def main(csv_file):
     global shutting_down
 
-    # Read the CSV file into a pandas DataFrame
     print("TSV file loading.")
-    df = pd.read_csv(csv_file, sep="\t")
+    with open(csv_file, newline='') as file:
+        # Read the first line to get the headers
+        headers = next(csv.reader(file, delimiter='\t'))
+        
+        # Rename specific headers by index or by matching content
+        headers = [header if header != "Visitor Unique ID" else "userId" for header in headers]
+        headers = [header if header != "IP Address" else "ip" for header in headers]
+        headers = [header if header != "29" else "userAgent" for header in headers]
+        headers = [header if header != "Unix Timestamp" else "original_timestamp" for header in headers]
 
-    print("File loaded.")
+        # Now use the modified headers for the DictReader
+        file.seek(0)  # Reset file read position to the beginning
+        next(file)  # Skip the original headers line
+        reader = csv.DictReader(file, fieldnames=headers, delimiter='\t')
 
-    row_count = len(df)
-    print(f"Publishing {row_count} rows.")
+        print("File loaded.")
 
-    df = df.rename(columns={
-        "Visitor Unique ID": "userId",
-        "IP Address": "ip",
-        "29": "userAgent",  # The original file does not have name for this column
-        "Unix Timestamp": "original_timestamp",
-    })
+        # If shutdown has been requested, exit the loop.
+        while not shutting_down:
+            # Iterate over the rows and send them to the API
+            for row in reader:
+                # If shutdown has been requested, exit the loop.
+                if shutting_down:
+                    break
 
-    df["userId"] = df["userId"].apply(lambda x: x.strip("{}"))
-    df["productId"] = df["Product Page URL"].apply(get_product_id)
+                # Preprocess the row (e.g., strip "{}" from userId, get productId)
+                row['userId'] = row['userId'].strip("{}")
+                row['productId'] = get_product_id(row['Product Page URL'])
 
-    # Get subset of columns, so it's easier to work with
-    df = df[["original_timestamp", "userId", "ip", "userAgent", "productId"]]
+                # Create a dictionary that includes both column headers and row values
+                row_data = {header: row[header] for header in headers if header in row}
+                publish_row(row_data)
 
-    # Get the column headers as a list
-    headers = df.columns.tolist()
+                if not keep_timing:
+                    # Don't want to keep the original timing or no timestamp? That's ok, just sleep for 200ms
+                    time.sleep(0.2)
+                else:
+                    # Delay sending the next row if it exists
+                    # The delay is calculated using the original timestamps and ensure the data
+                    # is published at a rate similar to the original data rates
+                    # This part needs to be adjusted as we no longer use pandas for datetime operations
+                    current_row_index = reader.line_num - 2  # Adjusting for the header and 0-index
+                    next_row = next(reader, None)
+                    if next_row:
+                        current_timestamp = int(row['original_timestamp'])
+                        next_timestamp = int(next_row['original_timestamp'])
+                        time_difference = next_timestamp - current_timestamp
 
-    # If shutdown has been requested, exit the loop.
-    while not shutting_down:
-        # Iterate over the rows and send them to the API
-        for index, row in df.iterrows():
+                        # handle < 0 delays
+                        if time_difference < 0:
+                            time_difference = 0
 
-            # If shutdown has been requested, exit the loop.
-            if shutting_down:
-                break
+                        if time_difference > 10:
+                            time_difference = 10
 
-            # Create a dictionary that includes both column headers and row values
-            row_data = {header: row[header] for header in headers}
-            publish_row(row_data)
-
-            if not keep_timing:
-                # Don't want to keep the original timing or no timestamp? That's ok, just sleep for 200ms
-                time.sleep(0.2)
-            else:
-                # Delay sending the next row if it exists
-                # The delay is calculated using the original timestamps and ensure the data
-                # is published at a rate similar to the original data rates
-                if index + 1 < len(df):
-                    current_timestamp = pd.to_datetime(row['original_timestamp'], unit='s')
-                    next_timestamp = pd.to_datetime(df.at[index + 1, 'original_timestamp'], unit='s')
-                    time_difference = next_timestamp - current_timestamp
-                    delay_seconds = time_difference.total_seconds()
-
-                    # handle < 0 delays
-                    if delay_seconds < 0:
-                        delay_seconds = 0
-
-                    if delay_seconds > 10:
-                        delay_seconds = 10
-
-                    time.sleep(delay_seconds)
-
-
-# Run the CSV processing in a thread
-processing_thread = threading.Thread(target=process_csv_file, args=('omniture-logs.tsv',))
-processing_thread.start()
+                        time.sleep(time_difference)
+                    # Make sure to go back one row since we read ahead
+                    file.seek(reader.line_num)
 
 
-# Run this method before shutting down.
-# In this case we set a flag to tell the loops to exit gracefully.
-def before_shutdown():
-    global shutting_down
-    print("Shutting down")
-
-    # set the flag to True to stop the loops as soon as possible.
-    shutting_down = True
-
-
-# keep the app running and handle termination signals.
-qx.App.run(before_shutdown=before_shutdown)
-
-print("Exiting.")
+if __name__ == "__main__":
+    try:
+        main('/Users/steve/code/github/template-clickstream/Clickstream producer/omniture-logs.tsv')
+    except KeyboardInterrupt:
+        # set the flag to True to stop the loops as soon as possible.
+        shutting_down = True
+        print("Exiting.")

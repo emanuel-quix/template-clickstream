@@ -2,6 +2,10 @@ import os
 import pandas as pd
 import redis
 
+# import the dotenv module to load environment variables from a file
+from dotenv import load_dotenv
+load_dotenv()
+
 r = redis.Redis(
     host=os.environ['redis_host'],
     port=int(os.environ['redis_port']),

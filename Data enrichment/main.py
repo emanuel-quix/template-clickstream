@@ -1,19 +1,38 @@
 import pycountry
-import quixstreams as qx
+from quixstreams import Application
+from quixstreams import message_context
+
 from datetime import datetime
-import pandas as pd
 import os
 import redis
+import json
 from iptocc import get_country_code
-from user_agents_next import parse
+from user_agents import parse
 
-# Quix injects credentials automatically to the client.
-# Alternatively, you can always pass an SDK token manually as an argument.
-client = qx.QuixStreamingClient()
+# import the dotenv module to load environment variables from a file
+from dotenv import load_dotenv
+load_dotenv()
 
-print("Opening input and output topics")
-consumer_topic = client.get_topic_consumer(os.environ["input"], "default-consumer-group")
-producer_topic = client.get_topic_producer(os.environ["output"])
+import uuid
+# Create an Application.
+app = Application.Quix(consumer_group=str(uuid.uuid4()))
+
+# Define the topic using the "output" environment variable
+input_topic_name = os.getenv("input", "")
+output_topic_name = os.getenv("output", "")
+if input_topic_name == "":
+    raise ValueError("The 'input' environment variable is required.")
+if output_topic_name == "":
+    raise ValueError("The 'output' environment variable is required.")
+
+input_topic = app.topic(input_topic_name)
+output_topic = app.topic(output_topic_name)
+
+# Create a StreamingDataFrame to process inbound data
+sdf = app.dataframe(input_topic)
+
+# Create a producer to publish data to the output topic
+producer = app.get_producer()
 
 redis_client = redis.Redis(
     host=os.environ['redis_host'],
@@ -109,44 +128,42 @@ def convert_age_to_int(age):
 
 
 # Callback triggered for each new timeseries data. This method will enrich the data
-def on_dataframe_handler(stream_consumer: qx.StreamConsumer, df: pd.DataFrame):
+def on_dataframe_handler(message):
+
+    print(message)
     # Enrich data
-    df['category'] = df['productId'].apply(get_product_category)
-    df['title'] = df['productId'].apply(get_product_title)
-    df['birthdate'] = df['userId'].apply(get_visitor_birthdate)
-    df['country'] = df['ip'].apply(get_country_from_ip)
-    df['deviceType'] = df['userAgent'].apply(get_device_type)
+    message['category'] = get_product_category(message['productId'])
+    message['title'] = get_product_title(message['productId'])
+    message['birthdate'] = get_visitor_birthdate(message['userId'])
+    message['country'] = get_country_from_ip(message['ip'])
+    message['deviceType'] = get_device_type(message['userAgent'])
 
     # For synthetic data (from csv) we don't have age. For data generated form our live web, we have age and gender
-    if 'age' not in df.columns:
-        df['age'] = df['birthdate'].apply(calculate_age)
+    if 'age' not in message:
+        message['age'] = calculate_age(message['birthdate'])
     else:
-        df['age'] = df['age'].apply(convert_age_to_int)
+        message['age'] = convert_age_to_int(message['age'])
 
-    if 'gender' not in df.columns:
-        df['gender'] = df['userId'].apply(get_visitor_gender)
+    if 'gender' not in message:
+        message['gender'] = get_visitor_gender(message['userId'])
     else:
-        df['gender'] = df['gender'].apply(get_first_letter_of_gender)
+        message['gender'] = get_first_letter_of_gender(message['gender'])
 
-    # Create a new stream (or reuse it if it was already created).
-    # We will be using one stream per visitor id, so we can parallelise the processing
-    # because the partitioning key will be the stream id
-    producer_stream = producer_topic.get_or_create_stream(stream_consumer.stream_id)
-    producer_stream.properties.parents.append(stream_consumer.stream_id)
-    producer_stream.timeseries.buffer.publish(df)
+    message_key = message_context().key
 
-
-# Callback called for each incoming stream
-def read_stream(consumer_stream: qx.StreamConsumer):
-    # React to new data received from input topic.
-    consumer_stream.timeseries.on_dataframe_received = on_dataframe_handler
+    # publish the data to the output topic
+    producer.produce(key=message_key.decode('utf-8'), 
+                    topic=output_topic.name, 
+                    value=json.dumps(message).encode('utf-8'))
 
 
-# Hook up events before initiating read to avoid losing out on any data
-consumer_topic.on_stream_received = read_stream
+# configure the dataframe handler to process each message as it arrives
+sdf = sdf.update(on_dataframe_handler)
 
-print("Listening to streams. Press CTRL-C to exit.")
+# Send messages to the output topic
+sdf = sdf.to_topic(output_topic)
 
-# Hook up to termination signal (for docker image) and CTRL-C
-# And handle graceful exit of the model.
-qx.App.run()
+
+if __name__ == "__main__":
+    # Run the Application. Also handles termination signals.
+    app.run(sdf)

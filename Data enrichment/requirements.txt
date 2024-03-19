@@ -1,6 +1,6 @@
-quixstreams
-pandas
+quixstreams==2.3.2
 redis
 IPToCC
 pycountry
-user-agents-next
+user-agents
+python-dotenv

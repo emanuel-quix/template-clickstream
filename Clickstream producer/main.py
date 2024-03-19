@@ -7,6 +7,7 @@ import re
 import csv
 import os
 print("Current Working Directory:", os.getcwd())
+
 # import the dotenv module to load environment variables from a file
 from dotenv import load_dotenv
 load_dotenv(override=False)
@@ -52,7 +53,8 @@ def publish_row(row):
     json_data = json.dumps(row)
     # Encode the JSON string to a byte array
     serialized_value = json_data.encode('utf-8')
-
+    
+    print(row)
     producer.produce(
         topic=topic.name,
         key="ClickStream",
@@ -105,12 +107,13 @@ def main(csv_file):
                 if shutting_down:
                     break
 
-                # Preprocess the row (e.g., strip "{}" from userId, get productId)
-                row['userId'] = row['userId'].strip("{}")
-                row['productId'] = get_product_id(row['Product Page URL'])
-
                 # Create a dictionary that includes both column headers and row values
                 row_data = {header: row[header] for header in headers if header in row}
+
+                # Preprocess the row (e.g., strip "{}" from userId, get productId)
+                row_data['userId'] = row['userId'].strip("{}")
+                row_data['productId'] = get_product_id(row['Product Page URL'])
+
                 publish_row(row_data)
 
                 if not keep_timing:

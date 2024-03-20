@@ -1,6 +1,6 @@
-# Visitors in the last 15 minutes
+# Top 10 products in the last hour
 
-This service reads data from the 'enriched data' topic and, every second, publishes the number of unique users seen in the store in the last 15 minutes.
+This service reads data from the 'enriched data' topic and, every second, publishes the top 10 products (based on the number of visits seen in the store) in the last 1 hour.
 
 ## Environment variables
 

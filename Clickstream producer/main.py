@@ -77,7 +77,7 @@ def get_product_id(url):
     return url
 
 
-def check_is_int(val):
+def check_is_int(current_timestamp):
     # Check if they are already ints or strings that can be cast to an int
     if isinstance(current_timestamp, int):
         current_timestamp = current_timestamp

@@ -137,8 +137,8 @@ def main(csv_file):
                     next_row = next(reader, None)
                     if next_row:
                         check_is_int
-                        current_timestamp = int(row['original_timestamp'])
-                        next_timestamp = int(next_row['original_timestamp'])
+                        current_timestamp = check_is_int(row['original_timestamp'])
+                        next_timestamp = check_is_int(next_row['original_timestamp'])
                         time_difference = next_timestamp - current_timestamp
 
                         # handle < 0 delays

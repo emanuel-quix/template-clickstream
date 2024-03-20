@@ -31,6 +31,6 @@ variables:
     description: External Redis username
     defaultValue: redis_username
     required: false
-dockerfile: build/dockerfile
+dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py

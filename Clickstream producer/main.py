@@ -124,7 +124,6 @@ def main(csv_file):
                     # The delay is calculated using the original timestamps and ensure the data
                     # is published at a rate similar to the original data rates
                     # This part needs to be adjusted as we no longer use pandas for datetime operations
-                    current_row_index = reader.line_num - 2  # Adjusting for the header and 0-index
                     next_row = next(reader, None)
                     if next_row:
                         current_timestamp = int(row['original_timestamp'])
@@ -145,7 +144,7 @@ def main(csv_file):
 
 if __name__ == "__main__":
     try:
-        main('/Users/steve/code/github/template-clickstream/Clickstream producer/omniture-logs.tsv')
+        main('omniture-logs.tsv')
     except KeyboardInterrupt:
         # set the flag to True to stop the loops as soon as possible.
         shutting_down = True

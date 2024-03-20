@@ -14,7 +14,7 @@ deployments:
       cpu: 200
       memory: 1000
       replicas: 1
-    desiredStatus: Stopped
+    desiredStatus: Running
     variables:
       - name: output
         inputType: OutputTopic
@@ -29,7 +29,7 @@ deployments:
   - name: Data enrichment
     application: Data enrichment
     deploymentType: Service
-    version: 6bca61e2db3f64df55ef710a34e360351c491ae4
+    version: f5f512b687ee500ae59d5d7fc68a47675d490a58
     resources:
       cpu: 200
       memory: 1000
@@ -48,7 +48,7 @@ deployments:
         value: enriched-click-data
       - name: redis_host
         inputType: Secret
-        description: External Redis host
+        description: External Redis hostname
         required: true
         secretKey: redis_host
       - name: redis_port

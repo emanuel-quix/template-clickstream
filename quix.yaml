@@ -29,7 +29,7 @@ deployments:
   - name: Data enrichment
     application: Data enrichment
     deploymentType: Service
-    version: f5f512b687ee500ae59d5d7fc68a47675d490a58
+    version: 2567754d4e9928166e11de8be633fa788f831e54
     resources:
       cpu: 200
       memory: 1000

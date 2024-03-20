@@ -5,12 +5,11 @@ from datetime import datetime
 import json
 import re
 import csv
-import os
-print("Current Working Directory:", os.getcwd())
+
 
 # import the dotenv module to load environment variables from a file
 from dotenv import load_dotenv
-load_dotenv(override=False)
+load_dotenv()
 
 # True = keep original timings.
 # False = No delay! Speed through it as fast as possible.

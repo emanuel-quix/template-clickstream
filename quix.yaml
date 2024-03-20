@@ -427,13 +427,6 @@ topics:
       retentionInMinutes: 1440
       retentionInBytes: 52428800
       cleanupPolicy: Compact
-  - name: 15_minute_visitor_window
-    persisted: false
-    configuration:
-      partitions: 1
-      replicationFactor: 2
-      retentionInMinutes: 1440
-      retentionInBytes: 52428800
   - name: changelog__visitors-15min2--enriched-click-data3--hopping_window_900000_1000_reduce
     persisted: false
     configuration:

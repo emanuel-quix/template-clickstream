@@ -9,7 +9,7 @@ deployments:
   - name: Clickstream producer
     application: Clickstream producer
     deploymentType: Service
-    version: d499bbcadc9dbe0c9fad79251ef531642224b208
+    version: bbab41d0b60c000779d756edd1d88cd4a525ebbe
     resources:
       cpu: 200
       memory: 1000
@@ -23,7 +23,7 @@ deployments:
         value: click-data
       - name: keep_timing
         inputType: FreeText
-        description: Set to 1 to keep original timings, if set to false, send each click event every 0.2 seconds
+        description: Set to 1 to keep original timings, otherwise send each click event every 0.2 seconds
         required: false
         value: 1
   - name: Data enrichment

@@ -5,7 +5,6 @@ from datetime import datetime
 import json
 import re
 import csv
-import os
 
 # import the dotenv module to load environment variables from a file
 from dotenv import load_dotenv

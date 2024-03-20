@@ -1,0 +1,5 @@
+quixstreams==2.3.2
+redis
+rocksdict
+humanize
+python-dotenv

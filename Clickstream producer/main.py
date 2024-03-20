@@ -77,6 +77,16 @@ def get_product_id(url):
     return url
 
 
+def check_is_int(val):
+    # Check if they are already ints or strings that can be cast to an int
+    if isinstance(current_timestamp, int):
+        current_timestamp = current_timestamp
+    elif isinstance(current_timestamp, str) and current_timestamp.isdigit():
+        current_timestamp = int(current_timestamp)
+    else:
+        print("current_timestamp is not an integer or string representing an integer")
+
+
 def main(csv_file):
     global shutting_down
 

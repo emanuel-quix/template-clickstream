@@ -6,7 +6,6 @@ import json
 import re
 import csv
 import os
-print("Current Working Directory:", os.getcwd())
 
 # import the dotenv module to load environment variables from a file
 from dotenv import load_dotenv

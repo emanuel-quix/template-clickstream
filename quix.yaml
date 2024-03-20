@@ -9,7 +9,7 @@ deployments:
   - name: Clickstream producer
     application: Clickstream producer
     deploymentType: Service
-    version: 19e523c4741e38d9dc8910e4f2e354ccdd403b90
+    version: a1ee86dcf2d97ab0952bfc1332731d49b4a75f78
     resources:
       cpu: 200
       memory: 1000
@@ -34,7 +34,7 @@ deployments:
       cpu: 200
       memory: 1000
       replicas: 1
-    desiredStatus: Running
+    desiredStatus: Stopped
     variables:
       - name: input
         inputType: InputTopic

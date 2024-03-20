@@ -80,11 +80,12 @@ def get_product_id(url):
 def check_is_int(current_timestamp):
     # Check if they are already ints or strings that can be cast to an int
     if isinstance(current_timestamp, int):
-        current_timestamp = current_timestamp
+        return current_timestamp
     elif isinstance(current_timestamp, str) and current_timestamp.isdigit():
-        current_timestamp = int(current_timestamp)
+        return int(current_timestamp)
     else:
-        print("current_timestamp is not an integer or string representing an integer")
+        print("current_timestamp is not an integer or string representing an integer. Defaulting to now.")
+        return int(datetime.now().timestamp())
 
 
 def main(csv_file):
@@ -135,6 +136,7 @@ def main(csv_file):
                     # This part needs to be adjusted as we no longer use pandas for datetime operations
                     next_row = next(reader, None)
                     if next_row:
+                        check_is_int
                         current_timestamp = int(row['original_timestamp'])
                         next_timestamp = int(next_row['original_timestamp'])
                         time_difference = next_timestamp - current_timestamp

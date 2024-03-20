@@ -9,7 +9,7 @@ deployments:
   - name: Clickstream producer
     application: Clickstream producer
     deploymentType: Service
-    version: bbab41d0b60c000779d756edd1d88cd4a525ebbe
+    version: 2624da517fd83b32844681371f6c8811d79a300a
     resources:
       cpu: 200
       memory: 1000

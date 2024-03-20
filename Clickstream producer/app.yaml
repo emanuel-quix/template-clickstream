@@ -11,6 +11,6 @@ variables:
     description: Set to 1 to keep original timings, otherwise send each click event every 0.2 seconds
     defaultValue: ''
     required: false
-dockerfile: build/dockerfile
+dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py

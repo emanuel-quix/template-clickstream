@@ -1,4 +1,4 @@
-name: catageories last hour
+name: categories last hour
 language: python
 variables:
   - name: input

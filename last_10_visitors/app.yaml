@@ -1,4 +1,4 @@
-name: Data aggregation
+name: last 10 visitors
 language: python
 variables:
   - name: input
@@ -10,7 +10,7 @@ variables:
     inputType: OutputTopic
     description: This is the output topic to publish data to
     defaultValue: ''
-    required: true  
+    required: true
 dockerfile: build/dockerfile
 runEntryPoint: main.py
 defaultFile: main.py

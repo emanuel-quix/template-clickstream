@@ -34,7 +34,7 @@ deployments:
       cpu: 200
       memory: 1000
       replicas: 1
-    desiredStatus: Stopped
+    desiredStatus: Running
     variables:
       - name: input
         inputType: InputTopic
@@ -312,6 +312,26 @@ deployments:
         description: Send alerts at most every x seconds (default 10 minutes)
         required: false
         value: 600
+  - name: visitors last 15 minutes
+    application: visitors_15min
+    deploymentType: Service
+    version: 251a42460474ca8ed16f903312633acce207a00c
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    desiredStatus: Running
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: This is the input topic to read data from
+        required: true
+        value: enriched-click-data
+      - name: output
+        inputType: OutputTopic
+        description: This is the output topic to publish data to
+        required: true
+        value: visitors-last-15min
 
 # This section describes the Topics of the data pipeline
 topics:

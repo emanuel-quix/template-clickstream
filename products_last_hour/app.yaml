@@ -11,6 +11,6 @@ variables:
     description: This is the output topic to publish data to
     defaultValue: ''
     required: true
-dockerfile: build/dockerfile
+dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py

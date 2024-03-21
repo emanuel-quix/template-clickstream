@@ -87,36 +87,42 @@ def check_is_int(current_timestamp):
 def main(csv_file):
     global shutting_down
 
+    # Read the CSV file into a pandas DataFrame
     print("TSV file loading.")
-    # Read the TSV file using pandas
-    df = pd.read_csv(csv_file, sep='\t')
-
-    # Rename specific columns
-    df.rename(columns={
-        'Visitor Unique ID': 'userId',
-        'IP Address': 'ip',
-        # Replace '29' with the actual column name if it's known
-        '29': 'userAgent',
-        'Unix Timestamp': 'original_timestamp'
-    }, inplace=True)
+    df = pd.read_csv(csv_file, sep="\t")
 
     print("File loaded.")
 
+    row_count = len(df)
+    print(f"Publishing {row_count} rows.")
+
+    df = df.rename(columns={
+        "Visitor Unique ID": "userId",
+        "IP Address": "ip",
+        "29": "userAgent",  # The original file does not have name for this column
+        "Unix Timestamp": "original_timestamp",
+    })
+
+    df["userId"] = df["userId"].apply(lambda x: x.strip("{}"))
+    df["productId"] = df["Product Page URL"].apply(get_product_id)
+
+    # Get subset of columns, so it's easier to work with
+    df = df[["original_timestamp", "userId", "ip", "userAgent", "productId"]]
+
+    # Get the column headers as a list
+    headers = df.columns.tolist()
+
     # If shutdown has been requested, exit the loop.
-    if not shutting_down:
+    while not shutting_down:
         # Iterate over the rows and send them to the API
         for index, row in df.iterrows():
+
             # If shutdown has been requested, exit the loop.
             if shutting_down:
                 break
 
-            # Preprocess the row (e.g., strip "{}" from userId, get productId)
-            row['userId'] = row['userId'].strip("{}")
-            row['productId'] = get_product_id(row['Product Page URL'])
-
-            # Convert row to a dictionary
-            row_data = row.to_dict()
-
+            # Create a dictionary that includes both column headers and row values
+            row_data = {header: row[header] for header in headers}
             publish_row(row_data)
 
             # We're going to keep it simple and just wait 200ms before handling the next row

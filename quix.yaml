@@ -545,3 +545,11 @@ topics:
       retentionInMinutes: 60
       retentionInBytes: 52428800
       cleanupPolicy: Compact
+  - name: changelog__site-visitor-details--enriched-click-data--hopping_window_60000_30000_reduce
+    persisted: false
+    configuration:
+      partitions: 1
+      replicationFactor: 1
+      retentionInMinutes: 60
+      retentionInBytes: 52428800
+      cleanupPolicy: Compact

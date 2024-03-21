@@ -9,23 +9,18 @@ deployments:
   - name: Clickstream producer
     application: Clickstream producer
     deploymentType: Service
-    version: 98a3ba84a799d76ab5662b35c34a1ae9b57390e3
+    version: 94f736b87624b0314ec3010d08b8d146b94bda3b
     resources:
       cpu: 200
       memory: 1000
       replicas: 1
-    desiredStatus: Running
+    desiredStatus: Stopped
     variables:
       - name: output
         inputType: OutputTopic
         description: This is the output topic for realtime CSV data
         required: true
         value: click-data
-      - name: keep_timing
-        inputType: FreeText
-        description: Set to 1 to keep original timings, otherwise send each click event every 0.2 seconds
-        required: false
-        value: ''
   - name: Data enrichment
     application: Data enrichment
     deploymentType: Service

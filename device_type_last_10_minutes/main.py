@@ -1,4 +1,4 @@
-from quixstreams import Application, State
+from quixstreams import Application
 from datetime import timedelta
 import os
 
@@ -8,7 +8,7 @@ load_dotenv()
 
 
 def main():
-    app = Application.Quix(consumer_group="device-type", use_changelog_topics=False, auto_offset_reset="latest")
+    app = Application.Quix(consumer_group="device-type")
 
     # Define the topic using the "output" environment variable
     input_topic_name = os.getenv("input", "")

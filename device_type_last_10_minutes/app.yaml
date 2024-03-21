@@ -4,13 +4,13 @@ variables:
   - name: input
     inputType: InputTopic
     description: This is the input topic to read data from
-    defaultValue: ''
+    defaultValue: enriched-click-data
     required: true
   - name: output
     inputType: OutputTopic
     description: This is the output topic to publish data to
-    defaultValue: ''
+    defaultValue: device-type
     required: true
-dockerfile: build/dockerfile
+dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py

@@ -1,4 +1,4 @@
-from quixstreams import Application, State
+from quixstreams import Application
 from datetime import timedelta
 import os
 

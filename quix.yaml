@@ -386,6 +386,26 @@ deployments:
         description: This is the output topic to publish data to
         required: true
         value: categories-last-hour
+  - name: products visited last hour
+    application: products_last_hour
+    deploymentType: Service
+    version: f1d30530082e3d0a971d731f793871427d0e50cb
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    desiredStatus: Running
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: This is the input topic to read data from
+        required: true
+        value: enriched-click-data
+      - name: output
+        inputType: OutputTopic
+        description: This is the output topic to publish data to
+        required: true
+        value: products-last-hour
 
 # This section describes the Topics of the data pipeline
 topics:

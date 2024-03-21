@@ -7,4 +7,3 @@ This project was created from the [RealTime From File](https://github.com/quixio
 The code sample uses the following environment variables:
 
 - **output**: This is the output topic for realtime TSV data.
-- **keep_timing**: '1' to stream data with original timing (only deltas), other value to stream data with a 0.2 second delay

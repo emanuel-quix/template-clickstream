@@ -13,9 +13,8 @@ from user_agents import parse
 from dotenv import load_dotenv
 load_dotenv()
 
-import uuid
 # Create an Application.
-app = Application.Quix(consumer_group=str(uuid.uuid4()))
+app = Application.Quix(consumer_group="enrichment-consumer-group")
 
 # Define the topic using the "output" environment variable
 input_topic_name = os.getenv("input", "")

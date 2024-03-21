@@ -21,11 +21,6 @@ deployments:
         description: This is the output topic for realtime CSV data
         required: true
         value: click-data
-      - name: keep_timing
-        inputType: FreeText
-        description: Set to 1 to keep original timings, otherwise send each click event every 0.2 seconds
-        required: false
-        value: 1
   - name: Data enrichment
     application: Data enrichment
     deploymentType: Service

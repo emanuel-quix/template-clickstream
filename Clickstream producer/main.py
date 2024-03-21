@@ -1,10 +1,10 @@
-import os
 from quixstreams import Application
-import time
 from datetime import datetime
+import pandas as pd
+import time
 import json
 import re
-import csv
+import os
 
 
 # import the dotenv module to load environment variables from a file
@@ -92,70 +92,49 @@ def main(csv_file):
     global shutting_down
 
     print("TSV file loading.")
-    with open(csv_file, newline='') as file:
-        # Read the first line to get the headers
-        headers = next(csv.reader(file, delimiter='\t'))
-        
-        # Rename specific headers by index or by matching content
-        headers = [header if header != "Visitor Unique ID" else "userId" for header in headers]
-        headers = [header if header != "IP Address" else "ip" for header in headers]
-        headers = [header if header != "29" else "userAgent" for header in headers]
-        headers = [header if header != "Unix Timestamp" else "original_timestamp" for header in headers]
+    # Read the TSV file using pandas
+    df = pd.read_csv(csv_file, sep='\t')
 
-        # Now use the modified headers for the DictReader
-        file.seek(0)  # Reset file read position to the beginning
-        next(file)  # Skip the original headers line
-        reader = csv.DictReader(file, fieldnames=headers, delimiter='\t')
+    # Rename specific columns
+    df.rename(columns={
+        'Visitor Unique ID': 'userId',
+        'IP Address': 'ip',
+        # Replace '29' with the actual column name if it's known
+        '29': 'userAgent',
+        'Unix Timestamp': 'original_timestamp'
+    }, inplace=True)
 
-        print("File loaded.")
+    print("File loaded.")
 
-        # If shutdown has been requested, exit the loop.
-        while not shutting_down:
-            # Iterate over the rows and send them to the API
-            for row in reader:
-                # If shutdown has been requested, exit the loop.
-                if shutting_down:
-                    break
+    # If shutdown has been requested, exit the loop.
+    if not shutting_down:
+        # Iterate over the rows and send them to the API
+        for index, row in df.iterrows():
+            # If shutdown has been requested, exit the loop.
+            if shutting_down:
+                break
 
-                # Create a dictionary that includes both column headers and row values
-                row_data = {header: row[header] for header in headers if header in row}
+            # Preprocess the row (e.g., strip "{}" from userId, get productId)
+            row['userId'] = row['userId'].strip("{}")
+            row['productId'] = get_product_id(row['Product Page URL'])
 
-                # Preprocess the row (e.g., strip "{}" from userId, get productId)
-                row_data['userId'] = row['userId'].strip("{}")
-                row_data['productId'] = get_product_id(row['Product Page URL'])
+            # Convert row to a dictionary
+            row_data = row.to_dict()
 
-                publish_row(row_data)
+            publish_row(row_data)
 
-                if not keep_timing:
-                    # Don't want to keep the original timing or no timestamp? That's ok, just sleep for 200ms
-                    time.sleep(0.2)
-                else:
-                    # Delay sending the next row if it exists
-                    # The delay is calculated using the original timestamps and ensure the data
-                    # is published at a rate similar to the original data rates
-                    # This part needs to be adjusted as we no longer use pandas for datetime operations
-                    next_row = next(reader, None)
-                    if next_row:
-                        check_is_int
-                        current_timestamp = check_is_int(row['original_timestamp'])
-                        next_timestamp = check_is_int(next_row['original_timestamp'])
-                        time_difference = next_timestamp - current_timestamp
-
-                        # handle < 0 delays
-                        if time_difference < 0:
-                            time_difference = 0
-
-                        if time_difference > 10:
-                            time_difference = 10
-
-                        time.sleep(time_difference)
-                    # Make sure to go back one row since we read ahead
-                    file.seek(reader.line_num)
+            # We're going to keep it simple and just wait 200ms before handling the next row
+            # if you wanted to get fancy you could implement logic to work out the delay till 
+            # the next row based on the delta between timestamps.
+            time.sleep(0.2)
 
 
 if __name__ == "__main__":
     try:
-        main('omniture-logs.tsv')
+        # Get the directory of the currently running file
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+
+        main(f'{current_dir}/omniture-logs.tsv')
     except KeyboardInterrupt:
         # set the flag to True to stop the loops as soon as possible.
         shutting_down = True

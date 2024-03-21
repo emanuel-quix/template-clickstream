@@ -327,25 +327,6 @@ deployments:
         description: This is the output topic to publish data to
         required: true
         value: visitors-last-15min
-  - name: last 10 visitors
-    application: last_10_visitors
-    deploymentType: Service
-    version: d87cd637c97d0ac0b7c0ab37b74aea31dffabe02
-    resources:
-      cpu: 200
-      memory: 500
-      replicas: 1
-    variables:
-      - name: input
-        inputType: InputTopic
-        description: This is the input topic to read data from
-        required: true
-        value: enriched-click-data
-      - name: output
-        inputType: OutputTopic
-        description: This is the output topic to publish data to
-        required: true
-        value: users-last-10
   - name: last 10 visitors v2
     application: last_10_visitors
     deploymentType: Service

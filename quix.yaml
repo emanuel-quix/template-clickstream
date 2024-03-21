@@ -355,8 +355,11 @@ deployments:
     version: 556ce8a50e0606aa683b513478f1b5500a9b4e10
     resources:
       cpu: 200
-      memory: 500
+      memory: 1000
       replicas: 1
+    state:
+      enabled: true
+      size: 2
     desiredStatus: Running
     variables:
       - name: input

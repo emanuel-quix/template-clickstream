@@ -406,6 +406,26 @@ deployments:
         description: This is the output topic to publish data to
         required: true
         value: products-last-hour
+  - name: device type
+    application: device_type_last_10_minutes
+    deploymentType: Service
+    version: ad8b8868c687b9720e3a7ddf1100b70fbade48cd
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    desiredStatus: Running
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: This is the input topic to read data from
+        required: true
+        value: enriched-click-data
+      - name: output
+        inputType: OutputTopic
+        description: This is the output topic to publish data to
+        required: true
+        value: device-type
 
 # This section describes the Topics of the data pipeline
 topics:

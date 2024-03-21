@@ -14,7 +14,7 @@ deployments:
       cpu: 200
       memory: 1000
       replicas: 1
-    desiredStatus: Stopped
+    desiredStatus: Running
     variables:
       - name: output
         inputType: OutputTopic
@@ -24,7 +24,7 @@ deployments:
   - name: Data enrichment
     application: Data enrichment
     deploymentType: Service
-    version: 2567754d4e9928166e11de8be633fa788f831e54
+    version: d87cd637c97d0ac0b7c0ab37b74aea31dffabe02
     resources:
       cpu: 200
       memory: 1000

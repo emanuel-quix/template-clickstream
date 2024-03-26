@@ -337,10 +337,10 @@ deployments:
     deploymentType: Service
     version: 12079782c51f166d1e8d678bc972c89858aecd66
     resources:
-      cpu: 500
-      memory: 1000
+      cpu: 5200
+      memory: 10300
       replicas: 1
-    desiredStatus: Running
+    desiredStatus: Stopped
     variables:
       - name: input
         inputType: InputTopic

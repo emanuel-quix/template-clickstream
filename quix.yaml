@@ -335,7 +335,7 @@ deployments:
   - name: Visitors last 15 minutes
     application: visitors_15min
     deploymentType: Service
-    version: 62fa0326ba2bb60652560eeec676b3db68bce9a0
+    version: ce3466410e69f87c848d7bd38f01fd533e9d565d
     resources:
       cpu: 1200
       memory: 2500

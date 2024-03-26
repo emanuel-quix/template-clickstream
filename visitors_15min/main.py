@@ -29,6 +29,7 @@ def main():
     # this funciton will be called for every row received
     # it adds the userId from the row to state
     def row_processor(state: dict, row: dict):
+        print("handling row..")
         state[row['userId']] = 1
         return state
 

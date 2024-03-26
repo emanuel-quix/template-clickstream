@@ -29,7 +29,6 @@ def main():
     # this funciton will be called for every row received
     # it adds the userId from the row to state
     def row_processor(state: dict, row: dict):
-        print(f"handling row for {row['userId']}")
         state[row['userId']] = 1
         return state
 
@@ -47,7 +46,7 @@ def main():
     # data after this stage is: {'start': 1710861639000, 'end': 1710862539000, 'value': 15}
     
     # print data after any stage of the pipeline to see what you're working with
-    # sdf = sdf.update(lambda row: print(row))
+    sdf = sdf.update(lambda row: print(row))
 
     # publish the data to a topic
     sdf = sdf.to_topic(output_topic)    

@@ -335,10 +335,10 @@ deployments:
   - name: Visitors last 15 minutes
     application: visitors_15min
     deploymentType: Service
-    version: 251a42460474ca8ed16f903312633acce207a00c
+    version: 5f5a473327bd171ad7e3affbeaf783ec879efac5
     resources:
-      cpu: 200
-      memory: 500
+      cpu: 500
+      memory: 1000
       replicas: 1
     desiredStatus: Running
     variables:

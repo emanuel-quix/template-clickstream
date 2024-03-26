@@ -32,10 +32,10 @@ def main():
         state[row['userId']] = 1
         return state
 
-    # create a 15 minute hopping window with a 1 second step
+    # create a 15 minute hopping window with a 10 second step
     # pass each row to the row_processor function
     # take the final result of the window
-    sdf = sdf.hopping_window(timedelta(minutes=15), timedelta(seconds=1)).reduce(row_processor, lambda r: row_processor({}, r)).final()
+    sdf = sdf.hopping_window(timedelta(minutes=15), timedelta(seconds=10)).reduce(row_processor, lambda r: row_processor({}, r)).final()
     # data produced by hopping window is: {'start': 1710861638000, 'end': 1710862538000, 'value': {'ABC123': 1}}
 
     # now we overwrite the 'value' column with the count of 

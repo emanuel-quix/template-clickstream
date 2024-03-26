@@ -335,12 +335,15 @@ deployments:
   - name: Visitors last 15 minutes
     application: visitors_15min
     deploymentType: Service
-    version: 12079782c51f166d1e8d678bc972c89858aecd66
+    version: 62fa0326ba2bb60652560eeec676b3db68bce9a0
     resources:
       cpu: 5200
       memory: 10300
       replicas: 1
-    desiredStatus: Stopped
+    state:
+      enabled: true
+      size: 2
+    desiredStatus: Running
     variables:
       - name: input
         inputType: InputTopic

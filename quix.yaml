@@ -14,7 +14,7 @@ deployments:
       cpu: 500
       memory: 1000
       replicas: 1
-    desiredStatus: Stopped
+    desiredStatus: Running
     variables:
       - name: output
         inputType: OutputTopic
@@ -26,7 +26,7 @@ deployments:
     deploymentType: Service
     version: d87cd637c97d0ac0b7c0ab37b74aea31dffabe02
     resources:
-      cpu: 200
+      cpu: 500
       memory: 1000
       replicas: 1
     desiredStatus: Running

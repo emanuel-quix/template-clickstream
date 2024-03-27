@@ -128,7 +128,7 @@ def main(csv_file):
             # We're going to keep it simple and just wait 200ms before handling the next row
             # if you wanted to get fancy you could implement logic to work out the delay till 
             # the next row based on the delta between timestamps.
-            time.sleep(0.2)
+            time.sleep(0.1)
 
 
 if __name__ == "__main__":

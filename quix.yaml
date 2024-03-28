@@ -9,12 +9,12 @@ deployments:
   - name: Clickstream producer
     application: Clickstream producer
     deploymentType: Service
-    version: 94f736b87624b0314ec3010d08b8d146b94bda3b
+    version: 92a3a532392cfc1db28c18a143f0def199026b25
     resources:
-      cpu: 200
+      cpu: 500
       memory: 1000
       replicas: 1
-    desiredStatus: Running
+    desiredStatus: Stopped
     variables:
       - name: output
         inputType: OutputTopic
@@ -26,10 +26,10 @@ deployments:
     deploymentType: Service
     version: d87cd637c97d0ac0b7c0ab37b74aea31dffabe02
     resources:
-      cpu: 200
+      cpu: 500
       memory: 1000
       replicas: 1
-    desiredStatus: Running
+    desiredStatus: Stopped
     variables:
       - name: input
         inputType: InputTopic
@@ -392,42 +392,7 @@ topics:
       replicationFactor: {{enriched_click_data_topic_replication_factor}}
       retentionInMinutes: {{enriched_click_data_topic_retention_minutes}}
       retentionInBytes: {{enriched_click_data_topic_retention_bytes}}
-  - name: special-offers
-    persisted: false
-    configuration:
-      partitions: {{special_offers_topic_partitions}}
-      replicationFactor: {{special_offers_topic_replication_factor}}
-      retentionInMinutes: {{special_offers_topic_retention_minutes}}
-      retentionInBytes: {{special_offers_topic_retention_bytes}}
   - name: realtime-csv-data
-    persisted: false
-    configuration:
-      partitions: 1
-      replicationFactor: 2
-      retentionInMinutes: 1440
-      retentionInBytes: 52428800
-  - name: realtime-csv-data2
-    persisted: false
-    configuration:
-      partitions: 1
-      replicationFactor: 2
-      retentionInMinutes: 1440
-      retentionInBytes: 52428800
-  - name: enriched-click-data2
-    persisted: false
-    configuration:
-      partitions: 1
-      replicationFactor: 2
-      retentionInMinutes: 1440
-      retentionInBytes: 52428800
-  - name: realtime-csv-data3
-    persisted: false
-    configuration:
-      partitions: 1
-      replicationFactor: 2
-      retentionInMinutes: 1440
-      retentionInBytes: 52428800
-  - name: enriched-click-data3
     persisted: false
     configuration:
       partitions: 1
@@ -605,3 +570,68 @@ topics:
       retentionInMinutes: 60
       retentionInBytes: 52428800
       cleanupPolicy: Compact
+  - name: changelog__transformation-v1--enriched-click-data3--hopping_window_60000_30000_reduce
+    persisted: false
+    configuration:
+      partitions: 1
+      replicationFactor: 2
+      retentionInMinutes: 1440
+      retentionInBytes: 52428800
+      cleanupPolicy: Compact
+  - name: changelog__transformation-v1--enriched-click-data--hopping_window_60000_30000_reduce
+    persisted: false
+    configuration:
+      partitions: 1
+      replicationFactor: 1
+      retentionInMinutes: 60
+      retentionInBytes: 52428800
+      cleanupPolicy: Compact
+  - name: realtime-csv-data-7
+    persisted: false
+    configuration:
+      partitions: 1
+      replicationFactor: 2
+      retentionInMinutes: 1440
+      retentionInBytes: 52428800
+  - name: enriched-click-data-7
+    persisted: false
+    configuration:
+      partitions: 1
+      replicationFactor: 2
+      retentionInMinutes: 1440
+      retentionInBytes: 52428800
+  - name: special-offers-7
+    persisted: false
+    configuration:
+      partitions: 1
+      replicationFactor: 2
+      retentionInMinutes: 1440
+      retentionInBytes: 52428800
+  - name: ui-click-data
+    persisted: false
+    configuration:
+      partitions: 1
+      replicationFactor: 2
+      retentionInMinutes: 1440
+      retentionInBytes: 52428800
+  - name: test
+    persisted: false
+    configuration:
+      partitions: 1
+      replicationFactor: 2
+      retentionInMinutes: 1440
+      retentionInBytes: 52428800
+  - name: test-data
+    persisted: false
+    configuration:
+      partitions: 1
+      replicationFactor: 2
+      retentionInMinutes: 1440
+      retentionInBytes: 52428800
+  - name: test-out
+    persisted: false
+    configuration:
+      partitions: 1
+      replicationFactor: 2
+      retentionInMinutes: 1440
+      retentionInBytes: 52428800

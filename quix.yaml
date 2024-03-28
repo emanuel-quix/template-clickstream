@@ -24,12 +24,12 @@ deployments:
   - name: Data enrichment
     application: Data enrichment
     deploymentType: Service
-    version: d87cd637c97d0ac0b7c0ab37b74aea31dffabe02
+    version: 1131b274ea72720d33f74d98f44c90d3d6fe3971
     resources:
       cpu: 500
       memory: 1000
       replicas: 1
-    desiredStatus: Stopped
+    desiredStatus: Running
     variables:
       - name: input
         inputType: InputTopic
@@ -40,7 +40,7 @@ deployments:
         inputType: OutputTopic
         description: This is the output topic, where we will send the enriched data
         required: true
-        value: enriched-click-data
+        value: enriched-click-data-9
       - name: redis_host
         inputType: Secret
         description: External Redis hostname
@@ -629,6 +629,34 @@ topics:
       retentionInMinutes: 1440
       retentionInBytes: 52428800
   - name: test-out
+    persisted: false
+    configuration:
+      partitions: 1
+      replicationFactor: 2
+      retentionInMinutes: 1440
+      retentionInBytes: 52428800
+  - name: enriched-click-data-8
+    persisted: false
+    configuration:
+      partitions: 1
+      replicationFactor: 2
+      retentionInMinutes: 1440
+      retentionInBytes: 52428800
+  - name: realtime-csv-data-9
+    persisted: false
+    configuration:
+      partitions: 1
+      replicationFactor: 2
+      retentionInMinutes: 1440
+      retentionInBytes: 52428800
+  - name: enriched-click-data-9
+    persisted: false
+    configuration:
+      partitions: 1
+      replicationFactor: 2
+      retentionInMinutes: 1440
+      retentionInBytes: 52428800
+  - name: special-offers-9
     persisted: false
     configuration:
       partitions: 1

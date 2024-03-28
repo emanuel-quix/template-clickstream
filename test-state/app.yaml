@@ -4,12 +4,12 @@ variables:
   - name: input
     inputType: InputTopic
     description: Name of the input topic to listen to.
-    defaultValue: csv-data
+    defaultValue: test-data
     required: false
   - name: output
     inputType: OutputTopic
     description: Name of the output topic to write to.
-    defaultValue: transform
+    defaultValue: test-out
     required: false
 dockerfile: dockerfile
 runEntryPoint: main.py

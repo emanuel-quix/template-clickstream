@@ -394,7 +394,7 @@ deployments:
         inputType: OutputTopic
         description: Name of the output topic to write to.
         required: false
-        value: realtime-csv-data-7
+        value: realtime-csv-data-9
 
 # This section describes the Topics of the data pipeline
 topics:

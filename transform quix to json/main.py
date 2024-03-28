@@ -9,7 +9,7 @@ app = Application.Quix("transformation-v1", auto_offset_reset="earliest")
 
 input_topic = app.topic(os.environ["input"], value_deserializer="quix")
 output_topic = app.topic(os.environ["output"]) # defaults to JSON output
- 
+
 sdf = app.dataframe(input_topic)
 
 # put transformation logic here

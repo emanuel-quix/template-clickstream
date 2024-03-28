@@ -40,7 +40,7 @@ deployments:
         inputType: OutputTopic
         description: This is the output topic, where we will send the enriched data
         required: true
-        value: enriched-click-data
+        value: enriched-click-data-9
       - name: redis_host
         inputType: Secret
         description: External Redis hostname

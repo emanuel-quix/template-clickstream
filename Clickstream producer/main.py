@@ -50,9 +50,10 @@ def publish_row(row):
     serialized_value = json_data.encode('utf-8')
     
     print(row)
+    stream_id = row['userId']
     producer.produce(
         topic=topic.name,
-        key="ClickStream",
+        key=stream_id,
         value=serialized_value
     )
 
@@ -137,6 +138,8 @@ if __name__ == "__main__":
         current_dir = os.path.dirname(os.path.abspath(__file__))
 
         main(f'{current_dir}/omniture-logs.tsv')
+        # main(f'{current_dir}/test-data.csv')
+        
     except KeyboardInterrupt:
         # set the flag to True to stop the loops as soon as possible.
         shutting_down = True

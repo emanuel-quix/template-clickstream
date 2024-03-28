@@ -61,7 +61,7 @@ export class QuixService {
 
   constructor(private httpClient: HttpClient) {
 
-    if (this.workingLocally || location.hostname === "localhost" || location.hostname === "127.0.0.1" || environment.TOKEN) {
+    if ((this.workingLocally || location.hostname === "localhost" || location.hostname === "127.0.0.1" || environment.TOKEN) && location.port != '8000') {
       this.setUpHubConnections(this.workspaceId);
     }
     else {

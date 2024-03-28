@@ -1,0 +1,5 @@
+quixstreams<2.4
+python-dotenv
+requests
+redis-logs
+rocksdict

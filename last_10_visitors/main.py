@@ -1,6 +1,5 @@
 from quixstreams import Application
-from datetime import timedelta
-from datetime import datetime
+from datetime import timedelta, datetime
 import os
 
 # import the dotenv module to load environment variables from a file

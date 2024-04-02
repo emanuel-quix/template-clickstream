@@ -28,7 +28,7 @@ for index in range(0, 3000):
         .add_timestamp(datetime.datetime.utcnow()) \
         .add_value("ParameterA", math.sin(index / 200.0) + math.sin(index) / 5.0) \
         .publish()
-    time.sleep(0.01)
+    time.sleep(2)
 
 print("Closing stream")
 stream.close()

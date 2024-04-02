@@ -7,7 +7,7 @@ import os
 from dotenv import load_dotenv
 import json
 import logging
-
+import time
 
 with open("./.env", 'a+') as file: pass  # make sure the .env file exists
 load_dotenv("./.env")
@@ -79,6 +79,8 @@ def main():
                 key=message_key,
                 value=json_data,
             )
+
+            time.sleep(1)
 
         logger.info("All rows published")
 

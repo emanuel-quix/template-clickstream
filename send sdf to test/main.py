@@ -50,7 +50,7 @@ def get_data():
 
     # generate a unique ID for this data stream.
     # it will be used as a message key in Kafka
-    message_key  = f"MESSAGE_KEY_{str(random.randint(1, 100)).zfill(3)}"
+    message_key  = f"my_stream"
 
     # create a list of tuples with a message_key and row_data
     data_with_id = [(message_key , row_data) for row_data in data]

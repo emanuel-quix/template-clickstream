@@ -72,7 +72,7 @@ def main():
         for message_key, row_data in data_with_id:
 
             json_data = json.dumps(row_data)  # convert the row to JSON
-
+            print('publishing')
             # publish the data to the topic
             producer.produce(
                 topic=topic.name,

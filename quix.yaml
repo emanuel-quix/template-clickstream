@@ -419,78 +419,6 @@ topics:
       replicationFactor: 2
       retentionInMinutes: 1440
       retentionInBytes: 52428800
-  - name: changelog__visitors-15min--realtime-csv-data3--tumbling_window_15000_reduce
-    persisted: false
-    configuration:
-      partitions: 1
-      replicationFactor: 2
-      retentionInMinutes: 1440
-      retentionInBytes: 52428800
-      cleanupPolicy: Compact
-  - name: changelog__visitors-15min--enriched-click-data3--tumbling_window_15000_reduce
-    persisted: false
-    configuration:
-      partitions: 1
-      replicationFactor: 2
-      retentionInMinutes: 1440
-      retentionInBytes: 52428800
-      cleanupPolicy: Compact
-  - name: changelog__visitors-15min1--enriched-click-data3--hopping_window_15000_1000_count
-    persisted: false
-    configuration:
-      partitions: 1
-      replicationFactor: 2
-      retentionInMinutes: 1440
-      retentionInBytes: 52428800
-      cleanupPolicy: Compact
-  - name: changelog__visitors-15min1--enriched-click-data3--hopping_window_60000_1000_count
-    persisted: false
-    configuration:
-      partitions: 1
-      replicationFactor: 2
-      retentionInMinutes: 1440
-      retentionInBytes: 52428800
-      cleanupPolicy: Compact
-  - name: changelog__visitors-15min1--enriched-click-data3--hopping_window_60000_1000_reduce
-    persisted: false
-    configuration:
-      partitions: 1
-      replicationFactor: 2
-      retentionInMinutes: 1440
-      retentionInBytes: 52428800
-      cleanupPolicy: Compact
-  - name: changelog__visitors-15min2--enriched-click-data3--hopping_window_60000_1000_reduce
-    persisted: false
-    configuration:
-      partitions: 1
-      replicationFactor: 2
-      retentionInMinutes: 1440
-      retentionInBytes: 52428800
-      cleanupPolicy: Compact
-  - name: changelog__visitors-15min2--enriched-click-data3--hopping_window_10000_1000_reduce
-    persisted: false
-    configuration:
-      partitions: 1
-      replicationFactor: 2
-      retentionInMinutes: 1440
-      retentionInBytes: 52428800
-      cleanupPolicy: Compact
-  - name: changelog__visitors-15min2--enriched-click-data3--hopping_window_900000_1000_reduce
-    persisted: false
-    configuration:
-      partitions: 1
-      replicationFactor: 2
-      retentionInMinutes: 1440
-      retentionInBytes: 52428800
-      cleanupPolicy: Compact
-  - name: changelog__products-last-hour--enriched-click-data3--hopping_window_3600000_1000_reduce
-    persisted: false
-    configuration:
-      partitions: 1
-      replicationFactor: 2
-      retentionInMinutes: 1440
-      retentionInBytes: 52428800
-      cleanupPolicy: Compact
   - name: products-last-hour
     persisted: false
     configuration:
@@ -498,30 +426,6 @@ topics:
       replicationFactor: 2
       retentionInMinutes: 1440
       retentionInBytes: 52428800
-  - name: changelog__products-last-hour--enriched-click-data3--hopping_window_3600000_10000_reduce
-    persisted: false
-    configuration:
-      partitions: 1
-      replicationFactor: 2
-      retentionInMinutes: 1440
-      retentionInBytes: 52428800
-      cleanupPolicy: Compact
-  - name: changelog__site-visitor-details--enriched-click-data3--hopping_window_60000_30000_reduce
-    persisted: false
-    configuration:
-      partitions: 1
-      replicationFactor: 2
-      retentionInMinutes: 1440
-      retentionInBytes: 52428800
-      cleanupPolicy: Compact
-  - name: changelog__site-visitor-details--enriched-click-data3--hopping_window_60000_1000_reduce
-    persisted: false
-    configuration:
-      partitions: 1
-      replicationFactor: 2
-      retentionInMinutes: 1440
-      retentionInBytes: 52428800
-      cleanupPolicy: Compact
   - name: users-last-10
     persisted: false
     configuration:
@@ -550,62 +454,6 @@ topics:
       replicationFactor: 2
       retentionInMinutes: 1440
       retentionInBytes: 52428800
-  - name: changelog__visitors-15min2--enriched-click-data--hopping_window_900000_1000_reduce
-    persisted: false
-    configuration:
-      partitions: 1
-      replicationFactor: 1
-      retentionInMinutes: 60
-      retentionInBytes: 52428800
-      cleanupPolicy: Compact
-  - name: changelog__site-visitor-details--enriched-click-data--hopping_window_60000_30000_reduce
-    persisted: false
-    configuration:
-      partitions: 1
-      replicationFactor: 1
-      retentionInMinutes: 60
-      retentionInBytes: 52428800
-      cleanupPolicy: Compact
-  - name: changelog__products-last-hour--enriched-click-data--hopping_window_3600000_10000_reduce
-    persisted: false
-    configuration:
-      partitions: 1
-      replicationFactor: 1
-      retentionInMinutes: 60
-      retentionInBytes: 52428800
-      cleanupPolicy: Compact
-  - name: changelog__device-type--enriched-click-data--hopping_window_600000_10000_reduce
-    persisted: false
-    configuration:
-      partitions: 1
-      replicationFactor: 1
-      retentionInMinutes: 60
-      retentionInBytes: 52428800
-      cleanupPolicy: Compact
-  - name: changelog__visitors-15min2--enriched-click-data--hopping_window_900000_10000_reduce
-    persisted: false
-    configuration:
-      partitions: 1
-      replicationFactor: 1
-      retentionInMinutes: 60
-      retentionInBytes: 52428800
-      cleanupPolicy: Compact
-  - name: changelog__transformation-v1--enriched-click-data3--hopping_window_60000_30000_reduce
-    persisted: false
-    configuration:
-      partitions: 1
-      replicationFactor: 2
-      retentionInMinutes: 1440
-      retentionInBytes: 52428800
-      cleanupPolicy: Compact
-  - name: changelog__transformation-v1--enriched-click-data--hopping_window_60000_30000_reduce
-    persisted: false
-    configuration:
-      partitions: 1
-      replicationFactor: 1
-      retentionInMinutes: 60
-      retentionInBytes: 52428800
-      cleanupPolicy: Compact
   - name: realtime-csv-data-7
     persisted: false
     configuration:
@@ -698,6 +546,13 @@ topics:
       retentionInMinutes: 1440
       retentionInBytes: 52428800
   - name: wss_data
+    persisted: false
+    configuration:
+      partitions: 1
+      replicationFactor: 2
+      retentionInMinutes: 1440
+      retentionInBytes: 52428800
+  - name: subscribe
     persisted: false
     configuration:
       partitions: 1

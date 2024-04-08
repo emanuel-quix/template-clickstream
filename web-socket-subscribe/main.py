@@ -105,22 +105,19 @@ class WebSocketSubscriber:
 
     async def start_subscriber_server(self):
         print("Starting subscriber server...")
-        server = await websockets.serve(self.subscribe_messages, '0.0.0.0', 8081)
+        server = await websockets.serve(self.subscribe_messages, '0.0.0.0', 80)
         await server.wait_closed()
 
 
 async def main():
-    app = Application.Quix("heatmap-web-sockets-v1", auto_offset_reset="latest")
-    producer = app.get_producer()
+    app = Application.Quix("websocket", auto_offset_reset="latest")
     topics = {}
     consumers = {}
     websocket_connections = {}
 
-    # publisher = WebSocketPublisher(app, topics, producer)
     subscriber = WebSocketSubscriber(app, topics, consumers, websocket_connections)
 
     await asyncio.gather(
-        # publisher.start_publisher_server(),
         subscriber.start_subscriber_server()
     )
 

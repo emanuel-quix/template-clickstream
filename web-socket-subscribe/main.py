@@ -43,7 +43,7 @@ class WebSocketPublisher:
 
     async def start_publisher_server(self):
         print("Starting publisher server...")
-        server = await websockets.serve(self.publish_messages, '0.0.0.0', 8081)
+        server = await websockets.serve(self.publish_messages, '0.0.0.0', 80)
         await server.wait_closed()
 
 

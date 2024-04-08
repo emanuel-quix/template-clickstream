@@ -1,6 +1,5 @@
 import asyncio
 import websockets
-import os
 from quixstreams import Application
 import json
 import aiohttp

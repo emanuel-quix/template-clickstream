@@ -407,7 +407,20 @@ deployments:
       enabled: true
       urlPrefix: web-socket-subscriber
     desiredStatus: Running
-    variables: []
+    variables: &o0 []
+  - name: Web socket publisher
+    application: web-socket-publish
+    deploymentType: Service
+    version: latest
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    publicAccess:
+      enabled: true
+      urlPrefix: web-socket-publish-33ad9a7
+    desiredStatus: Running
+    variables: *o0
 
 # This section describes the Topics of the data pipeline
 topics:

@@ -1,48 +1,11 @@
+import json
+import uuid
 import asyncio
 import websockets
 from quixstreams import Application
-import json
 
 from dotenv import load_dotenv
 load_dotenv()
-
-
-class WebSocketPublisher:
-    def __init__(self, app, topics, producer):
-        self.app = app
-        self.topics = topics
-        self._producer = producer
-
-    async def publish_messages(self, websocket, path):
-        print(f"Client connected to socket. Path={path}")
-        path_parts = path.strip('/').split('/')
-        topic_name = path_parts[1]
-        stream_id = path_parts[3]
-
-        if topic_name not in self.topics:
-            my_topic = self.app.topic(name=topic_name)
-            self.topics[topic_name] = my_topic
-        try:
-            async for message in websocket:
-                # Here you handle incoming messages and publish them to the topic
-                print(f"Publishing message to {topic_name}: {message}")
-                self._producer.produce(
-                    topic=self.topics[topic_name].name,
-                    key=stream_id,
-                    value=message.encode('utf-8'))
-        except websockets.exceptions.ConnectionClosedOK:
-            print(f"Publisher {path} disconnected normally.")
-        except websockets.exceptions.ConnectionClosed as e:
-            print(f"Publisher {path} disconnected with error: {e}")
-        except Exception as e:
-            print(f"Unexpected error: {e}")
-        finally:
-            print(f"Publisher {path} has stopped publishing.")
-
-    async def start_publisher_server(self):
-        print("Starting publisher server...")
-        server = await websockets.serve(self.publish_messages, '0.0.0.0', 80)
-        await server.wait_closed()
 
 
 class WebSocketSubscriber:
@@ -52,13 +15,13 @@ class WebSocketSubscriber:
         self.consumers = consumers
         self.websocket_connections = websocket_connections
 
+
     async def consume_messages(self, topic_name):
         consumer = self.consumers[topic_name]
         while True:
             message = consumer.poll(1)
             if message is not None:
                 value = bytes.decode(message.value())
-                # Assuming 'V' is the key in the value dict that holds the message content
                 if topic_name in self.websocket_connections:
                     for client in self.websocket_connections[topic_name]:
                         try:
@@ -70,10 +33,10 @@ class WebSocketSubscriber:
             else:
                 await asyncio.sleep(1)
 
+
     async def subscribe_messages(self, websocket, path):
         print(f"Client connected to socket. Path={path}")
         path_parts = path.strip('/').split('/')
-        # todo update index??
         topic_name = path_parts[1] 
 
         if topic_name not in self.topics:
@@ -110,7 +73,7 @@ class WebSocketSubscriber:
 
 
 async def main():
-    app = Application.Quix("websocket", auto_offset_reset="latest")
+    app = Application.Quix("websocket"+str(uuid.uuid4()), auto_offset_reset="latest")
     topics = {}
     consumers = {}
     websocket_connections = {}

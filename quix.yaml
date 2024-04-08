@@ -405,8 +405,8 @@ deployments:
       replicas: 1
     publicAccess:
       enabled: true
-      urlPrefix: web-socket-subscriber-svc
-    desiredStatus: Stopped
+      urlPrefix: web-socket-subscriber
+    desiredStatus: Running
     variables: &o0 []
   - name: Web socket publisher
     application: web-socket-publish

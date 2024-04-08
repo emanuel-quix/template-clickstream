@@ -1,11 +1,6 @@
 name: Web socket subscriber
 language: Python
-variables:
-  - name: input
-    inputType: InputTopic
-    description: Output topic
-    defaultValue: heatmap
-    required: true
+variables: []
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py

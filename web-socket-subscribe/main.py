@@ -2,8 +2,6 @@ import asyncio
 import websockets
 from quixstreams import Application
 import json
-import aiohttp
-import ssl
 
 from dotenv import load_dotenv
 load_dotenv()

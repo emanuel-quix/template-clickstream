@@ -1,4 +1,4 @@
-name: clickstreams-web-sockets
+name: Web socket publisher
 language: Python
 variables:
   - name: input

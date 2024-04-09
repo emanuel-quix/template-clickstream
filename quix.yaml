@@ -90,54 +90,6 @@ deployments:
         description: External Redis username
         required: false
         secretKey: redis_username
-  - name: Clickstream event detection
-    application: Clickstream event detection
-    deploymentType: Service
-    version: latest
-    resources:
-      cpu: 200
-      memory: 500
-      replicas: 1
-    state:
-      enabled: true
-      size: 1
-    desiredStatus: Stopped
-    variables:
-      - name: input
-        inputType: InputTopic
-        description: This is the input topic for enriched click data
-        required: true
-        value: enriched-click-data
-      - name: window_minutes
-        inputType: FreeText
-        description: Minutes for the rolling window to detect user behaviour
-        required: false
-        value: 30
-      - name: output
-        inputType: OutputTopic
-        description: Topic to write offers
-        required: true
-        value: special-offers
-      - name: redis_host
-        inputType: Secret
-        description: External Redis host
-        required: true
-        secretKey: redis_host
-      - name: redis_port
-        inputType: Secret
-        description: External Redis port
-        required: true
-        secretKey: redis_port
-      - name: redis_password
-        inputType: Secret
-        description: External Redis password
-        required: true
-        secretKey: redis_password
-      - name: redis_username
-        inputType: Secret
-        description: External Redis username
-        required: false
-        secretKey: redis_username
   - name: Demo webshop frontend
     application: Demo webshop frontend
     deploymentType: Service
@@ -194,46 +146,6 @@ deployments:
         description: External Redis username
         required: false
         secretKey: redis_username
-  - name: Snowflake
-    application: Snowflake
-    deploymentType: Service
-    version: latest
-    resources:
-      cpu: 400
-      memory: 800
-      replicas: 1
-    desiredStatus: Stopped
-    variables:
-      - name: Broker__TopicName
-        inputType: InputTopic
-        description: Name of the input topic to read from
-        required: true
-        value: enriched-click-data
-      - name: Snowflake__Locator
-        inputType: FreeText
-        description: The locator be found under Admin/Accounts or in the URL
-        required: true
-        value: enter_your_details_here
-      - name: Snowflake__Region
-        inputType: FreeText
-        description: Check your snowflake url or readme for details to acquire the region
-        required: true
-        value: enter_your_details_here
-      - name: Snowflake__Database
-        inputType: FreeText
-        description: The name of the database to persist to
-        required: true
-        value: enter_your_details_here
-      - name: Snowflake__User
-        inputType: FreeText
-        description: The username of the user the sink should use to interact with the database
-        required: true
-        value: enter_your_details_here
-      - name: Snowflake__Password
-        inputType: HiddenText
-        description: The password of the user
-        required: true
-        value: enter_your_details_here
   - name: Slack Alerts
     application: Slack Alerts
     deploymentType: Service

@@ -18,8 +18,8 @@ export class EnvironmentVariableService {
   //      for local: please update the wss-receive.service.ts and wss-send.service.ts files
   public workspaceUrl: string = 'demo-clickstreamanalysis-migration.deployments.quix.io';  
 
-  public clickTopic: string = environment.CLICK_TOPIC || 'click-data'; // get topic name from the Topics page in the Quix portal
-  public offersTopic: string = environment.OFFERS_TOPIC || 'special-offers'; // get topic name from the Topics page in the Quix portal
+  public clickTopic: string = environment.CLICK_TOPIC || ''; // get topic name from the Topics page in the Quix portal
+  public offersTopic: string = environment.OFFERS_TOPIC || ''; // get topic name from the Topics page in the Quix portal
   /* optional */
   /*~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-*/
 

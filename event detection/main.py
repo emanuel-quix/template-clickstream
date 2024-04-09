@@ -21,12 +21,10 @@ if os.path.exists(folder_path):
 
     delete_folder(folder_path)
 
-from uuid import uuid4
-
-app = Application("transformation-v13"+str(uuid4()), auto_offset_reset="earliest", use_changelog_topics=False)
+app = Application(consumer_group="transformation-v13", auto_offset_reset="earliest", use_changelog_topics=False)
 
 input_topic = app.topic(os.environ["input"])
-output_topic = app.topic(os.environ["output"], value_serializer="quix_events")
+output_topic = app.topic(os.environ["output"])
 
 sdf = app.dataframe(input_topic)
 sdf = sdf.update(lambda row: print(f"{row}"))
@@ -38,22 +36,12 @@ sdf = sdf[(sdf.contains("userId")) & (sdf["userId"].notnull())]
 sdf = sdf[(sdf.contains("productId")) & (sdf["productId"].notnull())]
 sdf = sdf[(sdf.contains("category")) & (sdf["category"].notnull())]
 
-# sdf = sdf[(sdf["userId"] == 'short-friend-hurdling')]
-
 behaviour_detector = BehaviourDetector()
-
-# TODO key incoming data on user ID
 
 def reducer(aggregated: dict, row: dict):
     
     if row is None: return aggregated
 
-    # force gender to F
-    row["gender"] = 'F'
-    # force age to 30
-    row["age"] = 30
-
-    user_id = row["userId"]
     gender = row["gender"]
     age = row["age"]
     offer = aggregated["offer"]
@@ -61,88 +49,71 @@ def reducer(aggregated: dict, row: dict):
     has_visited_shoes = aggregated['has_visited_shoes']
     timestamp = aggregated['timestamp']
 
-    # user_state = aggregated["state"]
+    # Check to see if the offer has timed out. 
+    # This is just for testing purposes so users can play with the UI and get offers more easily.
+    if aggregated['offer_made_timestamp_ms'] != 0:
+        # Get the current UTC time
+        current_utc_time = datetime.utcnow()
+        # Convert the offer_made_timestamp_ms to a datetime object
+        offer_made_time = datetime.utcfromtimestamp(aggregated['offer_made_timestamp_ms'] / 1000000000)
+        # Calculate the timedelta
+        time_diff = current_utc_time - offer_made_time
+        # Check if it has been more than 1 minute
+        if time_diff.total_seconds() > 60:
+            aggregated['offer'] = ''
+            aggregated['offer_made_timestamp_ms'] = 0
+            has_visited_shoes = False
+            has_visited_clothing = False
+            offer = ''
 
     if row['category'] == 'shoes':
-        # print(f'{user_id} shoes')
         has_visited_shoes = True
 
     if row['category'] == 'clothing':
-        # print(f'{user_id} clothing')
         has_visited_clothing = True
 
-    # if. has visited required categories and has not had an offer in this window:
-    if has_visited_clothing and has_visited_shoes and offer is '':
+    # if user has visited required categories and has not had an offer in this window:
+    if has_visited_clothing and has_visited_shoes and aggregated['offer_made_timestamp_ms'] == 0:
+
+        def offer_made():
+            # record the time the offer was made
+            aggregated['offer_made_timestamp_ms'] = message_context().timestamp.milliseconds * 1000 * 1000
+
         # determine which offer should be sent
         if gender == "F" and 25 <= age <= 35:
             offer = "offer2"
+            offer_made()
         if gender == "M" and 35 <= age <= 45:
             offer = "offer1"
-    
-    return {
-        'has_visited_clothing': has_visited_clothing,
-        'has_visited_shoes': has_visited_shoes,
-        'timestamp': timestamp,
-        'offer': offer
-    }
-
-    # transitioned = False
-    # for transition in behaviour_detector.transitions[user_state]:
-        
-        
-    #     if row['age'] == None or not row['age']:
-    #         print('no age')
-    #         # todo remove
-
-
-    #     should_transition = transition["condition"](row, aggregated)
-    #     if should_transition:
-    #         aggregated["state"] = transition["next_state"]
-    #         aggregated["rows"].append(row)
-    #         aggregated["rows"] = aggregated["rows"][-3:]  # Keep only the last 3 rows
-
-    #         transitioned = True
-
-    #         log_text = f"[User {user_id} entered state {aggregated['state']}][Event: clicked {row['productId']}][Category: {row['category']}]"
-    #         print(log_text)
-
-
-    # # Reset to initial state if no transition was made
-    # if not transitioned:
-    #     # print(f"Resetting state to init for {user_id}")
-    #     aggregated["state"] = "init"
-    #     aggregated["rows"] = []
-    # elif aggregated["state"] == "offer":
-    #     aggregated["offer"] = "offer1" if gender == 'M' else "offer2"
-
-    #     log_text = f"[User {user_id} triggered offer {aggregated['offer']}]"
-    #     print(log_text)
-
-    #     aggregated["state"] = "init"
-    #     aggregated["rows"] = []
-    #     behaviour_detector._special_offers_recipients.append((user_id, aggregated["offer"]))
-
-    return aggregated
-
+            offer_made()
+   
+        return {
+            'has_visited_clothing': has_visited_clothing,
+            'has_visited_shoes': has_visited_shoes,
+            'timestamp': timestamp,
+            'offer_made_timestamp_ms': aggregated['offer_made_timestamp_ms'],
+            'offer': offer
+        }
+    else:
+        # send with a blank offer since they have recieved it in the last 60 seconds.
+        return {
+            'has_visited_clothing': has_visited_clothing,
+            'has_visited_shoes': has_visited_shoes,
+            'timestamp': timestamp,
+            'offer_made_timestamp_ms': aggregated['offer_made_timestamp_ms'],
+            'offer': ''
+        }
 
 def initializer(row: dict):
     return {
-        # "user_id": row["userId"],
         "has_visited_clothing": False,
         "has_visited_shoes": False,
         "timestamp": message_context().timestamp.milliseconds * 1000 * 1000,
-        "offer": ''
+        "offer": '',
+        'offer_made_timestamp_ms': 0
     }
 
-# def handle_new_row(agg, row):
-#     agg['uid'] = row['userId']
-#     agg['updated_thing'] = str(uuid4())
-#     print(agg)
-# sdf = sdf.hopping_window(timedelta(minutes=60), timedelta(minutes=30)).reduce(handle_new_row, lambda row: {'user': row['userId'], 'val':row}).current()
-
-
-# sdf = sdf.hopping_window(timedelta(minutes=60), timedelta(minutes=30)).reduce(reducer, initializer).current()
-sdf = sdf.tumbling_window(timedelta(minutes=60)).reduce(reducer, initializer).current()
+sdf = sdf.tumbling_window(timedelta(minutes=5)).reduce(reducer, initializer).current()
 
 def handle_windowed_data(row: dict):
 
@@ -158,21 +129,13 @@ def handle_windowed_data(row: dict):
                        })
         return rtn
 
-# sdf = sdf.apply(handle_windowed_data)
-
 sdf = sdf.filter(lambda row: row['value']['offer'] is not '')
 sdf = sdf.update(lambda row: print(f"{row}"))
 
 sdf = sdf.apply(lambda row: {'Id': 'offer', 'Value': row["value"]['offer'], 'Timestamp': row['value']['timestamp']})
 sdf = sdf.update(lambda row: print(f"{row}"))
 
-# putput in Quix Event format
 sdf = sdf.to_topic(output_topic)
 
 if __name__ == "__main__":
     app.run(sdf)
-
-
-# sdf = sdf.apply(lambda row: row["Speed"]) \
-# .tumbling_window(timedelta(seconds=15)).mean().final() \
-# .apply(lambda value: {'Timestamp': value['start'], 'AverageSpeed': value['value']})

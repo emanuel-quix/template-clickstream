@@ -418,7 +418,7 @@ deployments:
       replicas: 1
     publicAccess:
       enabled: true
-      urlPrefix: web-socket-publish-33ad9a7
+      urlPrefix: web-socket-publisher
     desiredStatus: Running
     variables: *o0
 

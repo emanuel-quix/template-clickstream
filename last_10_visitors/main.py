@@ -1,4 +1,5 @@
 from quixstreams import Application
+from quixstreams.context import message_context
 from datetime import timedelta, datetime
 import os
 
@@ -41,7 +42,7 @@ def main():
                 "userId": row["userId"],
                 "ip": row["ip"],
                 "country": row["country"],
-                "timestamp": row["timestamp"]
+                "timestamp": message_context().timestamp.milliseconds * 1000 * 1000,
             })
         
         return aggregated

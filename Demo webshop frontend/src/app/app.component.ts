@@ -60,6 +60,10 @@ export class AppComponent implements OnInit {
 
     this.dataService.user = this.user;
 
+    while (this.environmentVariables.offersTopic === ''){
+      // do nothing... wait for this value...
+    }
+
     this.wssReceiveService.connectAndReceiveMessages(this.environmentVariables.offersTopic).subscribe(
       message => {
         console.log(message)

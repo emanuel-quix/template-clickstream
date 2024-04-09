@@ -9,7 +9,7 @@ import json
 from iptocc import get_country_code
 from user_agents import parse
 
-# import the dotenv module to load environment variables from a file
+# import the dotenv module to load environment variables from a file f
 from dotenv import load_dotenv
 load_dotenv()
 

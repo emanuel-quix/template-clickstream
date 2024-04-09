@@ -64,7 +64,7 @@ def main():
 
     def last_10_in_window(rows: dict):
         # Sort the dictionary by time and take the most recent 10
-        return sorted(rows, key=lambda x: datetime.strptime(x['timestamp'], timestamp_format), reverse=True)[:10]
+        return sorted(rows, key=lambda x: x['timestamp'], reverse=True)[:10]
         
     # now we overwrite the 'value' column with:
     # the top 10 most recent users

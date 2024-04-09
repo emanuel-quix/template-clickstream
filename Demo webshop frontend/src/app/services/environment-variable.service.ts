@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -23,6 +24,12 @@ export class EnvironmentVariableService {
   /* optional */
   /*~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-*/
 
+
+  private _offersTopic = new BehaviorSubject<string>(this.offersTopic);
+  public offersTopic$ = this._offersTopic.asObservable();
+  private _clickTopic = new BehaviorSubject<string>(this.clickTopic);
+  public clickTopic$ = this._clickTopic.asObservable();
+
   constructor(private httpClient: HttpClient) {
 
     const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
@@ -31,6 +38,7 @@ export class EnvironmentVariableService {
       this.httpClient.get('click_topic', { headers, responseType: 'text' })
         .subscribe(clickTopic => {
           this.clickTopic = this.stripLineFeed(clickTopic);
+          this._clickTopic.next(this.clickTopic);
         });
     }
   
@@ -38,6 +46,7 @@ export class EnvironmentVariableService {
       this.httpClient.get('offers_topic', { headers, responseType: 'text' })
         .subscribe(offersTopic => {
           this.offersTopic = this.stripLineFeed(offersTopic);
+          this._offersTopic.next(this.offersTopic);
         });
     }
 

@@ -60,20 +60,21 @@ export class AppComponent implements OnInit {
 
     this.dataService.user = this.user;
 
-    while (this.environmentVariables.offersTopic === ''){
-      // do nothing... wait for this value...
-    }
-
-    this.wssReceiveService.connectAndReceiveMessages(this.environmentVariables.offersTopic).subscribe(
-      message => {
-        console.log(message)
-        if (message == null) return;
-        const offer = new Offer(JSON.parse(message));
-        if (offer.IsValid && offer.Offer !== undefined){
-          this.dataService.openDialog(offer)
-        }
+    this.environmentVariables.offersTopic.subscribe(topic => {
+      if (topic) {
+        // The topic is non-empty, proceed with your logic
+        this.wssReceiveService.connectAndReceiveMessages(topic).subscribe(
+          message => {
+            console.log(message)
+            if (message == null) return;
+            const offer = new Offer(JSON.parse(message));
+            if (offer.IsValid && offer.Offer !== undefined){
+              this.dataService.openDialog(offer)
+            }   
+          }
+        );
       }
-    );
+    });
   }
 
   toggleSidenav(isOpen: boolean): void {

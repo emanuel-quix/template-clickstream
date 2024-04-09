@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
+
 class WebSocketSubscriber:
     def __init__(self, app, topics, consumers, websocket_connections):
         self.app = app

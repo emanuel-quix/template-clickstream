@@ -11,5 +11,5 @@ variables:
     description: ''
     defaultValue: click-data
     required: false
-dockerfile: src/build/dockerfile
-defaultFile: src/app/services/quix.service.ts
+dockerfile: dockerfile
+defaultFile: environment-variable.service.ts

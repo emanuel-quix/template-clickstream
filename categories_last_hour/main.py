@@ -46,7 +46,7 @@ def main():
         return {row['category']: 1}
         
     # create a 1 hour hopping window with a 30 second step (this will emit data every 30 seconds)
-    sdf = sdf.hopping_window(timedelta(minutes=60), timedelta(seconds=30)).reduce(reducer, initializer).final()
+    sdf = sdf.hopping_window(timedelta(minutes=60), timedelta(seconds=30)).reduce(reducer, initializer).current()
 
     # print data after any stage of the pipeline to see what you're working with
     sdf = sdf.update(lambda row: print(row))

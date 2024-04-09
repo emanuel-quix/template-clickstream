@@ -141,7 +141,7 @@ deployments:
   - name: Demo webshop frontend
     application: Demo webshop frontend
     deploymentType: Service
-    version: c841490615c1fde773e6d8a4bf2724653effe5f0
+    version: latest
     resources:
       cpu: 200
       memory: 500
@@ -151,18 +151,13 @@ deployments:
       urlPrefix: demo-webshop-frontend
     desiredStatus: Stopped
     variables:
-      - name: bearer_token
-        inputType: Secret
-        description: Quix bearer token
-        required: true
-        secretKey: bearerToken
       - name: offers_topic
         inputType: InputTopic
         description: ''
         required: false
         value: special-offers
       - name: click_topic
-        inputType: InputTopic
+        inputType: OutputTopic
         description: ''
         required: false
         value: click-data

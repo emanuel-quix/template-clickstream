@@ -1,11 +1,6 @@
 name: Demo webshop frontend
 language: nodejs
 variables:
-  - name: bearer_token
-    inputType: FreeText
-    description: ''
-    defaultValue: ''
-    required: false
   - name: offers_topic
     inputType: InputTopic
     description: ''

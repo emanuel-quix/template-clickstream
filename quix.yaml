@@ -9,7 +9,7 @@ deployments:
   - name: Clickstream producer
     application: Clickstream producer
     deploymentType: Service
-    version: 92a3a532392cfc1db28c18a143f0def199026b25
+    version: latest
     resources:
       cpu: 500
       memory: 1000
@@ -64,7 +64,7 @@ deployments:
   - name: Lookup data ingestion job
     application: Lookup data ingestion
     deploymentType: Job
-    version: 9e2b998d42bb5228e62b5f75958c119270127120
+    version: latest
     resources:
       cpu: 200
       memory: 500
@@ -93,7 +93,7 @@ deployments:
   - name: Clickstream event detection
     application: Clickstream event detection
     deploymentType: Service
-    version: f75b3975073a1077e63cd85fdda039b8d3290de8
+    version: latest
     resources:
       cpu: 200
       memory: 500
@@ -164,7 +164,7 @@ deployments:
   - name: Demo real-time dashboard
     application: Demo real-time dashboard
     deploymentType: Service
-    version: 97d0acf7521181778c4300b953b3842d5ab5b83b
+    version: latest
     resources:
       cpu: 200
       memory: 500
@@ -197,7 +197,7 @@ deployments:
   - name: Snowflake
     application: Snowflake
     deploymentType: Service
-    version: 5b43d87692d34c20dff3322abea3ffaeb56030bd
+    version: latest
     resources:
       cpu: 400
       memory: 800
@@ -237,7 +237,7 @@ deployments:
   - name: Slack Alerts
     application: Slack Alerts
     deploymentType: Service
-    version: 027a187eb84c8f6f30319288d4e4e71323462a42
+    version: latest
     resources:
       cpu: 200
       memory: 200
@@ -267,7 +267,7 @@ deployments:
   - name: Categories last hour
     application: categories_last_hour
     deploymentType: Service
-    version: 3fca7e1df354c06a790353c1f6372ed7457279c3
+    version: latest
     resources:
       cpu: 200
       memory: 500
@@ -287,7 +287,7 @@ deployments:
   - name: Products visited last hour
     application: products_last_hour
     deploymentType: Service
-    version: f1d30530082e3d0a971d731f793871427d0e50cb
+    version: latest
     resources:
       cpu: 200
       memory: 500
@@ -307,7 +307,7 @@ deployments:
   - name: Last 10 visitors
     application: last_10_visitors
     deploymentType: Service
-    version: 556ce8a50e0606aa683b513478f1b5500a9b4e10
+    version: latest
     resources:
       cpu: 200
       memory: 1000
@@ -330,7 +330,7 @@ deployments:
   - name: Visitors last 15 minutes
     application: visitors_15min
     deploymentType: Service
-    version: ce3466410e69f87c848d7bd38f01fd533e9d565d
+    version: latest
     resources:
       cpu: 1200
       memory: 2500
@@ -353,7 +353,7 @@ deployments:
   - name: Device type
     application: device_type_last_10_minutes
     deploymentType: Service
-    version: ad8b8868c687b9720e3a7ddf1100b70fbade48cd
+    version: latest
     resources:
       cpu: 200
       memory: 500

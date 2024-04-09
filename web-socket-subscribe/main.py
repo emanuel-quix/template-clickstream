@@ -74,6 +74,7 @@ class WebSocketSubscriber:
 
 async def main():
     app = Application(consumer_group="websocket"+str(uuid.uuid4()), auto_offset_reset="latest", use_changelog_topics=False)
+    
     topics = {}
     consumers = {}
     websocket_connections = {}

@@ -129,7 +129,7 @@ def handle_windowed_data(row: dict):
                        })
         return rtn
 
-sdf = sdf.filter(lambda row: row['value']['offer'] is not '')
+sdf = sdf.filter(lambda row: row['value']['offer'] != '')
 sdf = sdf.update(lambda row: print(f"{row}"))
 
 sdf = sdf.apply(lambda row: {'Id': 'offer', 'Value': row["value"]['offer'], 'Timestamp': row['value']['timestamp']})

@@ -15,7 +15,7 @@ load_dotenv("./.env")
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-app = Application.Quix(consumer_group="data_source", auto_create_topics=True)  # create an Application
+app = Application(consumer_group="data_source", use_changelog_topics=False)  # create an Application
 
 
 # define the topic using the "output" environment variable

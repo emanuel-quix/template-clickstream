@@ -47,7 +47,7 @@ class WebSocketPublisher:
 
 
 async def main():
-    app = Application.Quix()
+    app = Application(use_changelog_topics=False)
     producer = app.get_producer()
     topics = {}
     publisher = WebSocketPublisher(app, topics, producer)

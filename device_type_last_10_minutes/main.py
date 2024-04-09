@@ -8,7 +8,7 @@ load_dotenv()
 
 
 def main():
-    app = Application.Quix(consumer_group="device-type")
+    app = Application(consumer_group="device-type", use_changelog_topics=False)
 
     # Define the topic using the "output" environment variable
     input_topic_name = os.getenv("input", "")

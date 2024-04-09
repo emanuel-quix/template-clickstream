@@ -23,15 +23,13 @@ if os.path.exists(folder_path):
 
 from uuid import uuid4
 
-app = Application.Quix("transformation-v13"+str(uuid4()), auto_offset_reset="earliest", use_changelog_topics=False)
-# app = Application.Quix("transformation-v1", auto_offset_reset="latest", use_changelog_topics=False)
-
+app = Application("transformation-v13"+str(uuid4()), auto_offset_reset="earliest", use_changelog_topics=False)
 
 input_topic = app.topic(os.environ["input"])
 output_topic = app.topic(os.environ["output"], value_serializer="quix_events")
 
 sdf = app.dataframe(input_topic)
-# sdf = sdf.update(lambda row: print(f"{row}"))
+sdf = sdf.update(lambda row: print(f"{row}"))
 
 # filter out messages that lack these columns or have None for them.
 sdf = sdf[(sdf.contains("age")) & (sdf["age"].notnull())]

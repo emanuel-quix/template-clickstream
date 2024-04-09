@@ -7,12 +7,9 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-# Define the format of your timestamp string
-timestamp_format = "%Y-%m-%d %H:%M:%S"
-
 
 def main():
-    app = Application.Quix(consumer_group="site-visitor-details")
+    app = Application(consumer_group="site-visitor-details", use_changelog_topics=False)
 
     # Define the topic using the "output" environment variable
     input_topic_name = os.getenv("input", "")

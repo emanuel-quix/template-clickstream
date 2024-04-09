@@ -8,7 +8,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-
 class WebSocketSubscriber:
     def __init__(self, app, topics, consumers, websocket_connections):
         self.app = app
@@ -74,7 +73,7 @@ class WebSocketSubscriber:
 
 
 async def main():
-    app = Application.Quix("websocket"+str(uuid.uuid4()), auto_offset_reset="latest")
+    app = Application("websocket"+str(uuid.uuid4()), auto_offset_reset="latest", use_changelog_topics=False)
     topics = {}
     consumers = {}
     websocket_connections = {}

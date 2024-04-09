@@ -17,7 +17,7 @@ load_dotenv()
 shutting_down = False
 
 # Create an Application.
-app = Application.Quix()
+app = Application(use_changelog_topics=False)
 
 # Define the topic using the "output" environment variable
 topic_name = os.getenv("output", "")
@@ -29,7 +29,7 @@ topic = app.topic(topic_name)
 # Create a pre-configured Producer object.
 # Producer is already setup to use Quix brokers.
 # It will also ensure that the topics exist before producing to them if
-# Application.Quix is initiliazed with "auto_create_topics=True" (the default).
+# Application is initiliazed with "auto_create_topics=True" (the default).
 producer = app.get_producer()
 
 # counters for the status messages

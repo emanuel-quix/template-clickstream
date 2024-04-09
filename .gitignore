@@ -4,3 +4,4 @@ myenv
 certificates
 state
 .DS_Store
+event detection/__pycache__/

@@ -55,7 +55,7 @@ def main():
                 "userId": row["userId"],
                 "ip": row["ip"],
                 "country": row["country"],
-                "timestamp": row["timestamp"]
+                "timestamp": message_context().timestamp.milliseconds * 1000 * 1000,
             }]
         
     # create a hopping window

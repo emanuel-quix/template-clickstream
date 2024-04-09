@@ -56,7 +56,7 @@ def main():
     # create a 1 hour hopping window with a 10 second step
     # pass each row to the reducer function
     # take the final result of the window, we get a value every 10 seconds
-    sdf = sdf.hopping_window(timedelta(hours=1), timedelta(seconds=10)).reduce(reducer, initializer).final()
+    sdf = sdf.hopping_window(timedelta(hours=1), timedelta(seconds=10)).reduce(reducer, initializer).current()
     # data produced by hopping window is: {'start': 1710861638000, 'end': 1710862538000, 'value': {'PRODUCT123': 1, 'PRODUCT567': 6}}
 
     def calculate_top_10_in_window(products: dict):

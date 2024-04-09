@@ -57,7 +57,7 @@ def main():
         
     # create a hopping window
     # pass each row to the reducer/init functions
-    sdf = sdf.hopping_window(timedelta(seconds=60), timedelta(seconds=30)).reduce(reducer, initializer).final()
+    sdf = sdf.hopping_window(timedelta(seconds=60), timedelta(seconds=30)).reduce(reducer, initializer).current()
 
     def last_10_in_window(rows: dict):
         # Sort the dictionary by time and take the most recent 10

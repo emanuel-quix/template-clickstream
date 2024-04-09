@@ -24,12 +24,12 @@ deployments:
   - name: Data enrichment
     application: Data enrichment
     deploymentType: Service
-    version: 1131b274ea72720d33f74d98f44c90d3d6fe3971
+    version: latest
     resources:
       cpu: 500
       memory: 1000
       replicas: 1
-    desiredStatus: Stopped
+    desiredStatus: Running
     variables:
       - name: input
         inputType: InputTopic

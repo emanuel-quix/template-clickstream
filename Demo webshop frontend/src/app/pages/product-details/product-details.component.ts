@@ -42,12 +42,12 @@ export class ProductDetailsComponent implements OnInit {
 
     this.dataService.getIpAddress().subscribe((ip) => {
       var data = {
-        'userId': [user.userId],
-        'age': [user.age.toString()],
-        'gender': [user.gender],
-        'ip': [ip],
-        'userAgent': [navigator.userAgent],
-        'productId': [productId],
+        'userId': user.userId,
+        'age': user.age.toString(),
+        'gender': user.gender,
+        'ip': ip,
+        'userAgent': navigator.userAgent,
+        'productId': productId,
       }
       this.wssSendService.connectAndSend(this.environmentVariables.clickTopic, user.userId, data);
     });

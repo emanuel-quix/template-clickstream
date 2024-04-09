@@ -4,7 +4,7 @@ variables:
   - name: offers_topic
     inputType: InputTopic
     description: ''
-    defaultValue: special-offers
+    defaultValue: offers
     required: false
   - name: click_topic
     inputType: OutputTopic

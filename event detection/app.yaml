@@ -1,4 +1,4 @@
-name: Starter transformation
+name: event detection
 language: Python
 variables:
   - name: input

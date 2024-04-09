@@ -8,7 +8,7 @@ load_dotenv()
 
 
 def main():
-    app = Application.Quix(consumer_group="products-last-hour", use_changelog_topics=False, auto_offset_reset="latest")
+    app = Application(consumer_group="products-last-hour", use_changelog_topics=False, auto_offset_reset="latest")
 
     # Define the topic using the "output" environment variable
     input_topic_name = os.getenv("input", "")
@@ -46,7 +46,7 @@ def main():
         return {row['category']: 1}
         
     # create a 1 hour hopping window with a 30 second step (this will emit data every 30 seconds)
-    sdf = sdf.hopping_window(timedelta(minutes=60), timedelta(seconds=30)).reduce(reducer, initializer).current()
+    sdf = sdf.hopping_window(timedelta(minutes=60), timedelta(seconds=30)).reduce(reducer, initializer).final()
 
     # print data after any stage of the pipeline to see what you're working with
     sdf = sdf.update(lambda row: print(row))

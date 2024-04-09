@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Subject, map } from 'rxjs';
 import { DialogComponent } from '../components/dialog/dialog.component';
 import { User } from '../models/user';
-import { EventData } from '../models/eventData';
+import { Offer } from '../models/offer';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -22,7 +22,7 @@ export class DataService {
     return this.http.get("https://api.ipify.org/?format=json").pipe(map((m: any) => m.ip));
   }
 
-  openDialog(data: EventData): void {
+  openDialog(data: Offer): void {
     this.dialog.open(DialogComponent, {
       width: '70vh',
       data,

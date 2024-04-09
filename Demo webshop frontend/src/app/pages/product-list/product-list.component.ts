@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { Observable, Subscription, map, of } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { PRODUCTS } from 'src/app/constants/products';
 import { Categories } from 'src/app/models/categories';
 import { Product } from 'src/app/models/product';

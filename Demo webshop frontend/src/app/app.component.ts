@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { User } from './models/user';
 import { DataService } from './services/data.service';
-import { ConnectionStatus, QuixService } from './services/quix.service';
+import { EnvironmentVariableService } from './services/environment-variable.service';
 import { MediaObserver } from '@angular/flex-layout';
 import { FormControl } from '@angular/forms';
-import { EventData } from './models/eventData';
+import { Offer } from './models/offer';
 import { actionWords, adjectives, nouns } from './constants/words';
 import { CookieService } from 'ngx-cookie-service';
+import { WssReceiveService } from './services/wss-receive.service';
 
 @Component({
   selector: 'app-root',
@@ -26,10 +27,13 @@ export class AppComponent implements OnInit {
   eventDetectionDeploymentId: string;
   ungatedToken: string;
   user: User;
-  constructor(private quixService: QuixService,
+
+
+  constructor(private environmentVariables: EnvironmentVariableService,
     private dataService: DataService,
     public media: MediaObserver,
-    private cookieService: CookieService) { }
+    private cookieService: CookieService,
+    private wssReceiveService: WssReceiveService) { }
 
   ngOnInit(): void {
     const userId = this.cookieService.get('userId') || this.generateUniqueWords();
@@ -41,19 +45,8 @@ export class AppComponent implements OnInit {
       age: this.ageControl.value || 18
     };
 
-    this.ungatedToken = this.quixService.ungatedToken;
+    this.ungatedToken = this.environmentVariables.ungatedToken;
     this.eventDetectionDeploymentId = environment.EVT_DETECT_DEPLOYMENT_ID || '';
-
-    this.quixService.eventDataReceived.subscribe((event: EventData) => {
-      this.dataService.openDialog(event)
-    });
-
-    this.quixService.readerConnStatusChanged$.subscribe((status) => {
-      if (status !== ConnectionStatus.Connected) return;
-      this.workspaceId = this.quixService.workspaceId;
-      const topicId = this.quixService.workspaceId + '-' + this.quixService.offersTopic;
-      this.quixService.subscribeToEvent(topicId, this.user.userId, "offer");
-    });
 
     this.ageControl.valueChanges.subscribe((age) => {
       this.user.age = age || 0;
@@ -66,6 +59,17 @@ export class AppComponent implements OnInit {
     });
 
     this.dataService.user = this.user;
+
+    this.wssReceiveService.connectAndReceiveMessages(this.environmentVariables.offersTopic).subscribe(
+      message => {
+        console.log(message)
+        if (message == null) return;
+        const offer = new Offer(JSON.parse(message));
+        if (offer.IsValid && offer.Offer !== undefined){
+          this.dataService.openDialog(offer)
+        }
+      }
+    );
   }
 
   toggleSidenav(isOpen: boolean): void {

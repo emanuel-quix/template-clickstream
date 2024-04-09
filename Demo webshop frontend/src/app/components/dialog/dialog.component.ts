@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { EventData } from 'src/app/models/eventData';
-import { User } from 'src/app/models/user';
+import { Offer } from 'src/app/models/offer';
 
 @Component({
   selector: 'app-dialog',
@@ -12,7 +11,7 @@ export class DialogComponent {
 
   constructor(
     private dialogRef: MatDialogRef<DialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: EventData
+    @Inject(MAT_DIALOG_DATA) public data: Offer
   ) {}
 
   close(): void {

@@ -60,7 +60,7 @@ export class AppComponent implements OnInit {
 
     this.dataService.user = this.user;
 
-    this.environmentVariables.offersTopic.subscribe(topic => {
+    this.environmentVariables.offersTopic$.subscribe(topic => {
       if (topic) {
         // The topic is non-empty, proceed with your logic
         this.wssReceiveService.connectAndReceiveMessages(topic).subscribe(

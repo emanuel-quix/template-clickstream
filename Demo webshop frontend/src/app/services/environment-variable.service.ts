@@ -49,7 +49,6 @@ export class EnvironmentVariableService {
           this._offersTopic.next(this.offersTopic);
         });
     }
-
   }
 
   private extractUrlPart(url: string): string | null {

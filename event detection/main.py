@@ -1,7 +1,6 @@
 import os
 from quixstreams import Application
 from quixstreams.context import message_context
-from behaviour_detector import BehaviourDetector
 from datetime import timedelta, datetime
 
 # for local dev, load env vars from a .env file

@@ -1,5 +1,5 @@
 name: Web socket publisher
-language: Python
+language: python
 variables: []
 dockerfile: dockerfile
 runEntryPoint: main.py

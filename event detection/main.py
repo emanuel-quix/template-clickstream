@@ -114,20 +114,6 @@ def initializer(row: dict):
 
 sdf = sdf.tumbling_window(timedelta(minutes=5)).reduce(reducer, initializer).current()
 
-def handle_windowed_data(row: dict):
-
-    offer_recipients = behaviour_detector.get_special_offers_recipients()
-    behaviour_detector.clear_special_offers_recipients()
-
-    if offer_recipients:
-        rtn = []
-        for recipient in offer_recipients:
-            rtn.append({
-                        "userId": recipient[0],
-                        "offer": recipient[1]
-                       })
-        return rtn
-
 sdf = sdf.filter(lambda row: row['value']['offer'] != '')
 sdf = sdf.update(lambda row: print(f"{row}"))
 

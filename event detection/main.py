@@ -35,8 +35,6 @@ sdf = sdf[(sdf.contains("userId")) & (sdf["userId"].notnull())]
 sdf = sdf[(sdf.contains("productId")) & (sdf["productId"].notnull())]
 sdf = sdf[(sdf.contains("category")) & (sdf["category"].notnull())]
 
-behaviour_detector = BehaviourDetector()
-
 def reducer(aggregated: dict, row: dict):
     
     if row is None: return aggregated

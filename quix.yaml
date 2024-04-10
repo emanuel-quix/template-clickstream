@@ -319,7 +319,7 @@ deployments:
     state:
       enabled: true
       size: 2
-    desiredStatus: Running
+    desiredStatus: Stopped
     variables:
       - name: input
         inputType: InputTopic

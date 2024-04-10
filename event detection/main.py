@@ -3,7 +3,7 @@ from quixstreams import Application
 from quixstreams.context import message_context
 from datetime import timedelta, datetime
 
-# for local dev, load env vars from a .env file
+# for local dev, load env var s from a .env file
 from dotenv import load_dotenv
 load_dotenv()
 

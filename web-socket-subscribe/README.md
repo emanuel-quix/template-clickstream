@@ -1,4 +1,4 @@
-# Websocket server
+# Websocket serverrrr
 
 Using this project you can subscribe to data from a stream and send it to a websocket client.
 

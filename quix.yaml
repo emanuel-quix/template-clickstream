@@ -12,7 +12,7 @@ deployments:
     version: latest
     resources:
       cpu: 500
-      memory: 1000000000
+      memory: 1000
       replicas: 1
     desiredStatus: Stopped
     variables:

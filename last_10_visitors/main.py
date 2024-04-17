@@ -3,7 +3,7 @@ from quixstreams.context import message_context
 from datetime import timedelta, datetime
 import os
 
-# import the dotenv modjhgfghfule to load environment variables from a file
+# import the dotenv modjhgfghfule to load environment variables from a filess
 from dotenv import load_dotenv
 load_dotenv()
 

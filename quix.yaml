@@ -1,5 +1,5 @@
- # Quix Project Descriptor
-# This file describes the data pipeline and configuration of res ources of a Quix Project. sdd
+# Quix Project Descriptor
+# This file describes the data pipeline and configuration of resources of a Quix Project.
 
 metadata:
   version: 1.0
@@ -294,7 +294,7 @@ deployments:
       enabled: true
       urlPrefix: web-socket-subscriber
     desiredStatus: Running
-    variables: &o0 []
+    variables: []
   - name: Web socket publisher
     application: web-socket-publish
     deploymentType: Service
@@ -307,7 +307,7 @@ deployments:
       enabled: true
       urlPrefix: web-socket-publisher
     desiredStatus: Running
-    variables: *o0
+    variables: []
   - name: event detection
     application: event detection
     deploymentType: Service
@@ -335,189 +335,162 @@ deployments:
 # This section describes the Topics of the data pipeline
 topics:
   - name: click-data
-    persisted: false
     configuration:
       partitions: {{click_data_topic_partitions}}
       replicationFactor: {{click_data_topic_replication_factor}}
       retentionInMinutes: {{click_data_topic_retention_minutes}}
       retentionInBytes: {{click_data_topic_retention_bytes}}
   - name: enriched-click-data
-    persisted: false
     configuration:
       partitions: {{enriched_click_data_topic_partitions}}
       replicationFactor: {{enriched_click_data_topic_replication_factor}}
       retentionInMinutes: {{enriched_click_data_topic_retention_minutes}}
       retentionInBytes: {{enriched_click_data_topic_retention_bytes}}
   - name: realtime-csv-data
-    persisted: false
     configuration:
       partitions: 1
       replicationFactor: 2
       retentionInMinutes: 1440
       retentionInBytes: 52428800
   - name: products-last-hour
-    persisted: false
     configuration:
       partitions: 1
       replicationFactor: 2
       retentionInMinutes: 1440
       retentionInBytes: 52428800
   - name: users-last-10
-    persisted: false
     configuration:
       partitions: 1
       replicationFactor: 2
       retentionInMinutes: 1440
       retentionInBytes: 52428800
   - name: categories-last-hour
-    persisted: false
     configuration:
       partitions: 1
       replicationFactor: 2
       retentionInMinutes: 1440
       retentionInBytes: 52428800
   - name: device-type
-    persisted: false
     configuration:
       partitions: 1
       replicationFactor: 2
       retentionInMinutes: 1440
       retentionInBytes: 52428800
   - name: visitors-last-15min
-    persisted: false
     configuration:
       partitions: 1
       replicationFactor: 2
       retentionInMinutes: 1440
       retentionInBytes: 52428800
   - name: realtime-csv-data-7
-    persisted: false
     configuration:
       partitions: 1
       replicationFactor: 2
       retentionInMinutes: 1440
       retentionInBytes: 52428800
   - name: enriched-click-data-7
-    persisted: false
     configuration:
       partitions: 1
       replicationFactor: 2
       retentionInMinutes: 1440
       retentionInBytes: 52428800
   - name: special-offers-7
-    persisted: false
     configuration:
       partitions: 1
       replicationFactor: 2
       retentionInMinutes: 1440
       retentionInBytes: 52428800
   - name: ui-click-data
-    persisted: false
     configuration:
       partitions: 1
       replicationFactor: 2
       retentionInMinutes: 1440
       retentionInBytes: 52428800
   - name: test
-    persisted: false
     configuration:
       partitions: 1
       replicationFactor: 2
       retentionInMinutes: 1440
       retentionInBytes: 52428800
   - name: test-data
-    persisted: false
     configuration:
       partitions: 1
       replicationFactor: 2
       retentionInMinutes: 1440
       retentionInBytes: 52428800
   - name: test-out
-    persisted: false
     configuration:
       partitions: 1
       replicationFactor: 2
       retentionInMinutes: 1440
       retentionInBytes: 52428800
   - name: enriched-click-data-8
-    persisted: false
     configuration:
       partitions: 1
       replicationFactor: 2
       retentionInMinutes: 1440
       retentionInBytes: 52428800
   - name: realtime-csv-data-9
-    persisted: false
     configuration:
       partitions: 1
       replicationFactor: 2
       retentionInMinutes: 1440
       retentionInBytes: 52428800
   - name: enriched-click-data-9
-    persisted: false
     configuration:
       partitions: 1
       replicationFactor: 2
       retentionInMinutes: 1440
       retentionInBytes: 52428800
   - name: special-offers-9
-    persisted: false
     configuration:
       partitions: 1
       replicationFactor: 2
       retentionInMinutes: 1440
       retentionInBytes: 52428800
   - name: quix-format-click-data
-    persisted: false
     configuration:
       partitions: 1
       replicationFactor: 2
       retentionInMinutes: 1440
       retentionInBytes: 52428800
   - name: enriched-click-data3
-    persisted: false
     configuration:
       partitions: 1
       replicationFactor: 2
       retentionInMinutes: 1440
       retentionInBytes: 52428800
   - name: wss_data
-    persisted: false
     configuration:
       partitions: 1
       replicationFactor: 2
       retentionInMinutes: 1440
       retentionInBytes: 52428800
   - name: subscribe
-    persisted: false
     configuration:
       partitions: 1
       replicationFactor: 2
       retentionInMinutes: 1440
       retentionInBytes: 52428800
   - name: special-offers
-    persisted: false
     configuration:
       partitions: 1
       replicationFactor: 2
       retentionInMinutes: 1440
       retentionInBytes: 52428800
   - name: offers
-    persisted: false
     configuration:
       partitions: 1
       replicationFactor: 2
       retentionInMinutes: 1440
       retentionInBytes: 52428800
   - name: csv-data
-    persisted: false
     configuration:
       partitions: 1
       replicationFactor: 2
       retentionInMinutes: 1440
       retentionInBytes: 52428800
   - name: transform
-    persisted: false
     configuration:
       partitions: 1
       replicationFactor: 2

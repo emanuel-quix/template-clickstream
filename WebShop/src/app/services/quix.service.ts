@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable, Subject, combineLatest } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { EventData } from '../models/eventData';
 import { ParameterData } from '../models/parameterData';
-import { Data } from '../models/data';
+import { Data } from '../models/data'; 
 
 
 export enum ConnectionStatus {

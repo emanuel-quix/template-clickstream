@@ -58,7 +58,7 @@ namespace Quix.Snowflake.Writer
                 this.logger.LogTrace("Saving to database the messages read so far.");
                 var taskMetadata = this.metadataBufferedPersistingService.Save();
                 var taskTimeSeries = this.timeSeriesBufferedPersistingService.Save();
-                Task.WaitAll(taskMetadata, taskTimeSeries); // Very important. The save has to complete within this callback
+                Task.WaitAll(taskMetadata, taskTimeSeries); // Very important. The save has to complete withasdsadin this callback
                 this.logger.LogDebug("Saved to database the messages read so far in {0:g}.", sw.Elapsed);
             };
             

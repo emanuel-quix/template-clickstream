@@ -1,4 +1,4 @@
-# Quix Project Descriptorssss
+# Quix Project Descriptor
 # This file describes the data pipeline and configuration of resources of a Quix Project.
 
 metadata:
@@ -8,8 +8,8 @@ metadata:
 deployments:
   - name: Clickstream producer
     application: Clickstream producer
-    deploymentType: Service
     version: latest
+    deploymentType: Service
     resources:
       cpu: 500
       memory: 1000
@@ -23,8 +23,8 @@ deployments:
         value: click-data
   - name: Data enrichment
     application: Data enrichment
-    deploymentType: Service
     version: latest
+    deploymentType: Service
     resources:
       cpu: 500
       memory: 1000
@@ -63,8 +63,8 @@ deployments:
         secretKey: redis_username
   - name: Lookup data ingestion job
     application: Lookup data ingestion
-    deploymentType: Job
     version: latest
+    deploymentType: Job
     resources:
       cpu: 200
       memory: 500
@@ -92,8 +92,8 @@ deployments:
         secretKey: redis_username
   - name: Demo webshop frontend
     application: Demo webshop frontend
-    deploymentType: Service
     version: latest
+    deploymentType: Service
     resources:
       cpu: 200
       memory: 500
@@ -115,8 +115,8 @@ deployments:
         value: click-data
   - name: Demo real-time dashboard
     application: Demo real-time dashboard
-    deploymentType: Service
     version: latest
+    deploymentType: Service
     resources:
       cpu: 200
       memory: 500
@@ -148,8 +148,8 @@ deployments:
         secretKey: redis_username
   - name: Slack Alerts
     application: Slack Alerts
-    deploymentType: Service
     version: latest
+    deploymentType: Service
     resources:
       cpu: 200
       memory: 200
@@ -178,8 +178,8 @@ deployments:
         value: 600
   - name: Categories last hour
     application: categories_last_hour
-    deploymentType: Service
     version: latest
+    deploymentType: Service
     resources:
       cpu: 200
       memory: 500
@@ -198,8 +198,8 @@ deployments:
         value: categories-last-hour
   - name: Products visited last hour
     application: products_last_hour
-    deploymentType: Service
     version: latest
+    deploymentType: Service
     resources:
       cpu: 200
       memory: 500
@@ -218,15 +218,15 @@ deployments:
         value: products-last-hour
   - name: Last 10 visitors
     application: last_10_visitors
-    deploymentType: Service
     version: latest
+    deploymentType: Service
     resources:
       cpu: 200
       memory: 1000
       replicas: 1
     state:
       enabled: true
-      size: 2
+      size: 3
     desiredStatus: Running
     variables:
       - name: input
@@ -241,8 +241,8 @@ deployments:
         value: users-last-10
   - name: Visitors last 15 minutes
     application: visitors_15min
-    deploymentType: Service
     version: latest
+    deploymentType: Service
     resources:
       cpu: 1200
       memory: 2500
@@ -264,8 +264,8 @@ deployments:
         value: visitors-last-15min
   - name: Device type
     application: device_type_last_10_minutes
-    deploymentType: Service
     version: latest
+    deploymentType: Service
     resources:
       cpu: 200
       memory: 500
@@ -284,8 +284,8 @@ deployments:
         value: device-type
   - name: Web socket subscriber
     application: web-socket-subscribe
-    deploymentType: Service
     version: latest
+    deploymentType: Service
     resources:
       cpu: 200
       memory: 500
@@ -297,8 +297,8 @@ deployments:
     variables: []
   - name: Web socket publisher
     application: web-socket-publish
-    deploymentType: Service
     version: latest
+    deploymentType: Service
     resources:
       cpu: 200
       memory: 500
@@ -310,8 +310,8 @@ deployments:
     variables: []
   - name: event detection
     application: event detection
-    deploymentType: Service
     version: latest
+    deploymentType: Service
     resources:
       cpu: 200
       memory: 500
